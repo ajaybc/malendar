@@ -1,1 +1,128 @@
 @import "config";
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background: #FAFAFA;
+	width: 100%;
+	height: 100%;
+
+	font-family: Helvetica, Arial;
+	-webkit-font-smoothing: antialiased;
+}
+
+footer {
+	background: #EEEEEE;
+	position: fixed;
+	bottom: 0;
+	height : 50px;
+	width : 100%;
+}
+
+#mainContainer {
+	padding: 10px;
+}
+
+#dateWidget {
+	@include pie-clearfix;
+	box-sizing: border-box;
+	width: 500px;
+
+	margin-top: 180px;
+	transition:all .2s cubic-bezier(.4,0,.2,1);
+
+	&:hover {
+		box-shadow: 0 17px 50px 0 rgba(0,0,0,.19);
+	}
+	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+#dateWidget-left {
+	box-sizing: border-box;
+	background: #FF5252;
+	padding: 10px;
+	height: 250px;
+	width: 250px;
+	float: left;
+
+	border-right:1px solid #FE5252;
+
+	color:#FFF;
+
+	text-align:center;
+
+	#dateWidget-mday {
+		margin-top: 10px;
+		font-size: 20px;
+	}
+
+	#dateWidget-edate {
+		margin-top: 10px;
+		font-size: 140px;
+	}
+
+	#dateWidget-mmonth {
+		margin-top: 10px;
+		font-size: 20px;
+	}
+}
+
+#dateWidget-right {
+	box-sizing: border-box;
+	background: #00BCD4;
+	padding: 10px;
+	height: 250px;
+	width: 250px;
+	float: left;
+	color: #FFF;
+
+	#dateWidget-mdate {
+		font-size: 60px;
+		float: left;
+	}
+
+	
+	#dateWidget-top {
+		@include pie-clearfix;
+		padding-left:45px;
+		margin-top: 50px;
+		#dateWidget-mdate-right {
+			float: left;
+			padding-left:5px;
+
+			#dateWidget-mmonth{
+				font-size: 16px;
+				padding-top: 8px;
+			}
+
+			#dateWidget-nakshatra{
+				font-size: 16px;
+				padding-top: 8px;
+			}
+		}
+	}
+	#dateWidget-mrahu{
+		padding-top: 8px;
+		clear: both;
+		text-align: center;
+	}
+
+	#dateWidget-speciality {
+		font-size: 16px;
+		color: #F14A7E;
+		padding-top: 15px;
+		text-align: center;
+	}
+}
+
+#dateWidget-bottom{
+	background: #8BC34A;
+	box-sizing: border-box;
+	padding: 10px;
+	width: 100%;
+	height: 250px;
+	float: left;
+}
