@@ -1,0 +1,17 @@
+{
+  "name": "malendar",
+  "version": "0.0.1",
+  "description": "Awesome new tab page for all malayalees",
+  "author": "Ajay Balachandran",
+  
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-uglify": "*",
+    "gulp-copy": "*",
+    "gulp-compass": "*",
+    "gulp-concat": "*",
+    "del": "*"
+  },  
+  
+  "license": "MIT"
+}
