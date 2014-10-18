@@ -12,8 +12,10 @@
 			<div id="dateWidget" data-ng-controller="dateWidgetController">
 				<div id="dateWidget-left">
 					<div id="dateWidget-emonth" class="mallu">{{gregorianMonth}}</div>
-					<div id="dateWidget-edate">{{gregorianDate}}</div>
-					<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
+					<div id="dateWidget-dateContainer">
+						<div id="dateWidget-edate">{{gregorianDate}}</div>
+						<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
+					</div>
 
 					<div id="dateWidget-bottom">
 						<div id="dateWidget-mdate">{{malayalamDate}}</div>
@@ -28,11 +30,6 @@
 		<!-- <footer></footer> -->
 		<script type="text/javascript" src="build/scripts/libs.js"></script>
 		<script type="text/javascript" src="build/scripts/app.js"></script>
-		<script type="text/javascript">
-			var Malendar = {}
-			//Malendar.controllers = 
-			Malendar.app = angular.module('Malendar', ['Malendar.controllers', 'Malendar.services']);
-		</script>
 		<script type="text/javascript" src="build/scripts/data.js"></script>
 	</body>
 </html>

@@ -3,7 +3,6 @@ angular.module('Malendar.controllers', [])
 		todayMoment = moment();
 		todayString = todayMoment.format("D/M/YYYY");
 		dayDetails = Malendar.dates[todayString];
-		console.log(dayDetails);
 		$scope.gregorianMonth = monthProvider.getGregorianMonthName(todayMoment.month());
 		$scope.gregorianDate = todayMoment.date();
 		$scope.gregorianWeekDay = dayProvider.getGregorianWeekDayName(todayMoment.isoWeekday() - 1);

@@ -53,30 +53,35 @@ footer {
 
 #dateWidget-left {
 	box-sizing: border-box;
-	background: #f0e9dc;
 	width: 250px;
 	float: left;
 	text-align:center;
-
-	#dateWidget-mday {
-		margin-top: 10px;
-		font-size: 34px;
-		color: #825d5b;
-	}
-
-	#dateWidget-edate {
-		margin-top: 10px;
-		font-size: 150px;
-		color: #6f5f5c;
-		text-shadow: rgba(255,255,255,0.5) 2px 3px 6px;
-		font-weight: 700;
-	}
+	border-radius: 5px;
 
 	#dateWidget-emonth {
 		font-size: 22px;
 		background: #825d5b;
 		padding: 10px;
 		color: #f0e9dc;
+
+		border-radius: 5px 5px 0 0;
+	}
+
+	#dateWidget-dateContainer {
+		background: #f0e9dc;
+		padding-bottom: 15px;
+		#dateWidget-edate {
+			padding-top: 10px;
+			font-size: 150px;
+			color: #6f5f5c;
+			text-shadow: rgba(255,255,255,0.5) 2px 3px 6px;
+			font-weight: 700;
+		}
+		#dateWidget-mday {
+			padding-top: 10px;
+			font-size: 34px;
+			color: #825d5b;
+		}
 	}
 
 	
@@ -86,8 +91,6 @@ footer {
 		width: 100%;
 		float: left;
 		color: #f0e9dc;
-		margin-top: 15px;
-
 		#dateWidget-mdate {
 			font-size: 60px;
 			float: left;
@@ -95,6 +98,7 @@ footer {
 			width: 85px;
 			box-sizing:border-box;
 			background: #f0b270;
+			border-radius: 0 0 0 5px;
 		}
 
 		#dateWidget-mdate-right {
@@ -109,6 +113,8 @@ footer {
 			font-size: 22px;
 
 			padding-top: 16px;
+
+			border-radius: 0 0 5px 0;
 
 			#dateWidget-mmonth{
 				padding-bottom: 6px;
