@@ -1,5 +1,8 @@
 @import "config";
 
+@include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
+@include font-face("Meera", font-files("meera.ttf"));
+
 html {
 	height: 100%;
 	width: 100%;
@@ -22,6 +25,10 @@ footer {
 	width : 100%;
 }
 
+.mallu {
+	font-family:"Meera";
+}
+
 #mainContainer {
 	padding: 10px;
 }
@@ -41,6 +48,7 @@ footer {
 
 	margin-left: auto;
 	margin-right: auto;
+	cursor: pointer;
 }
 
 #dateWidget-left {
@@ -52,17 +60,20 @@ footer {
 
 	#dateWidget-mday {
 		margin-top: 10px;
-		font-size: 24px;
+		font-size: 34px;
+		color: #825d5b;
 	}
 
 	#dateWidget-edate {
 		margin-top: 10px;
-		font-size: 140px;
+		font-size: 150px;
 		color: #6f5f5c;
+		text-shadow: rgba(255,255,255,0.5) 2px 3px 6px;
+		font-weight: 700;
 	}
 
 	#dateWidget-emonth {
-		font-size: 20px;
+		font-size: 22px;
 		background: #825d5b;
 		padding: 10px;
 		color: #f0e9dc;
@@ -81,7 +92,7 @@ footer {
 			font-size: 60px;
 			float: left;
 			padding:10px;
-			width: 80px;
+			width: 85px;
 			box-sizing:border-box;
 			background: #f0b270;
 		}
@@ -90,17 +101,17 @@ footer {
 			float: left;
 			padding-left:5px;
 			background: #e38f71;
-			width: 170px;
+			width: 165px;
 			height: 80px;
 			text-align: left;
 			padding-left: 10px;
 			box-sizing: border-box;
-			font-size: 20px;
+			font-size: 22px;
 
-			padding-top: 12px;
+			padding-top: 16px;
 
 			#dateWidget-mmonth{
-				padding-bottom: 8px;
+				padding-bottom: 6px;
 			}
 
 			#dateWidget-nakshatra{

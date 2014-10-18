@@ -5,13 +5,14 @@ var gulp = require('gulp'),
    del = require('del'),
    concat = require('gulp-concat');
 
-var libJsSrc = "source/scripts/lib/"
-var dataJsSrc = "source/scripts/data/"
-var appJsSrc = "source/scripts/app/"
+var libJsSrc = "source/scripts/lib/";
+var dataJsSrc = "source/scripts/data/";
+var appJsSrc = "source/scripts/app/";
 
-var scssSrc = "source/scss/"
+var scssSrc = "source/scss/";
+var fontSrc = "source/fonts/";
 
-gulp.task('clean', ['cleanLibJs', 'cleanDataJs', 'cleanAppJs', 'cleanScss']);
+gulp.task('clean', ['cleanLibJs', 'cleanDataJs', 'cleanAppJs', 'cleanScss', 'cleanFonts']);
 
 gulp.task('buildLibJs', function () {
     gulp.src([libJsSrc + 'jquery-2.1.1.min.js', libJsSrc + '*'])
@@ -40,7 +41,7 @@ gulp.task('cleanDataJs', function (cb) {
 });
 
 gulp.task('buildAppJs', function () {
-    gulp.src(appJsSrc)
+    gulp.src([appJsSrc + '*'])
         //.pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest('build/scripts/'))
@@ -69,13 +70,25 @@ gulp.task('cleanScss', function (cb) {
   ], cb);
 });
 
+gulp.task('buildFonts', function () {
+    gulp.src([fontSrc + '*'])
+        .pipe(gulp.dest('build/fonts/'))
+});
+
+gulp.task('cleanFonts', function (cb) {
+  del([
+    'build/fonts/*'
+  ], cb);
+});
+
 gulp.task('startWatching', function () {
     gulp.watch(libJsSrc + '*', ['cleanLibJs','buildLibJs']);
     gulp.watch(dataJsSrc + '*', ['cleanDataJs','buildDataJs']);
     gulp.watch(appJsSrc + '*', ['cleanAppJs','buildAppJs']);
     gulp.watch(scssSrc + '*', ['cleanScss','buildScss']);
+    gulp.watch(fontSrc + '*', ['buildFonts','cleanFonts']);
 });
 
 gulp.task('watch', ['clean', 'build', 'startWatching']);
 
-gulp.task('build', ['clean', 'buildLibJs', 'buildDataJs', 'buildAppJs', 'buildScss']);
+gulp.task('build', ['clean', 'buildLibJs', 'buildDataJs', 'buildAppJs', 'buildScss', 'buildFonts']);

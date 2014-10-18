@@ -4,6 +4,7 @@ css_dir = 'build/css'
 sass_dir = 'source/sass'
 images_dir = 'build/images'
 javascripts_dir = 'build/scripts'
+fonts_dir = "build/fonts"
 # relative_assets = true
 line_comments = true
 # output_style = :compressed

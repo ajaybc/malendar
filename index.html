@@ -4,45 +4,35 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<title>New Tab :: Malendar</title>
-		<script type="text/javascript" src="build/scripts/libs.js"></script>
-		<script type="text/javascript" src="build/scripts/data.js"></script>
-		<script type="text/javascript" src="build/scripts/app.js"></script>
 		<link rel="stylesheet" type="text/css" href="build/css/style.css">
 	</head>
 
-	<body>
+	<body data-ng-app="Malendar">
 		<div id="mainContainer">
-			<div id="dateWidget">
+			<div id="dateWidget" data-ng-controller="dateWidgetController">
 				<div id="dateWidget-left">
-					<div id="dateWidget-emonth">ഒക്ടോബർ </div>
-					<div id="dateWidget-edate">17</div>
-					<div id="dateWidget-mday">വെള്ളി </div>
+					<div id="dateWidget-emonth" class="mallu">{{gregorianMonth}}</div>
+					<div id="dateWidget-edate">{{gregorianDate}}</div>
+					<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
 
 					<div id="dateWidget-bottom">
-						<div id="dateWidget-mdate">31</div>
+						<div id="dateWidget-mdate">{{malayalamDate}}</div>
 						<div id="dateWidget-mdate-right">
-							<div id="dateWidget-mmonth">കന്നി </div>
-							<div id="dateWidget-nakshatra">പൂയം </div>
+							<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
+							<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
 						</div>
 					</div>
 				</div>
-				<!-- <div id="dateWidget-right">
-					<div id="dateWidget-top">
-						<div id="dateWidget-mdate">31</div>
-						<div id="dateWidget-mdate-right">
-							<div id="dateWidget-mmonth">കന്നി </div>
-							<div id="dateWidget-nakshatra">പൂയം </div>
-						</div>
-					</div>
-					<div id="dateWidget-mrahu">രാഹു : 5.00AM - 6.00AM</div>
-					<div id="dateWidget-speciality">
-						<ul>
-							<li>Thiruvonam</li>
-						</ul>
-					</div>
-				</div> -->
 			</div>
 		</div>
 		<!-- <footer></footer> -->
+		<script type="text/javascript" src="build/scripts/libs.js"></script>
+		<script type="text/javascript" src="build/scripts/app.js"></script>
+		<script type="text/javascript">
+			var Malendar = {}
+			//Malendar.controllers = 
+			Malendar.app = angular.module('Malendar', ['Malendar.controllers', 'Malendar.services']);
+		</script>
+		<script type="text/javascript" src="build/scripts/data.js"></script>
 	</body>
 </html>
