@@ -9,20 +9,24 @@
 
 	<body data-ng-app="Malendar">
 		<div id="mainContainer">
-			<div id="dateWidget" data-ng-controller="dateWidgetController">
-				<div id="dateWidget-left">
-					<div id="dateWidget-emonth" class="mallu">{{gregorianMonth}}</div>
-					<div id="dateWidget-dateContainer">
-						<div id="dateWidget-edate">{{gregorianDate}}</div>
-						<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
-					</div>
-
-					<div id="dateWidget-bottom">
-						<div id="dateWidget-mdate">{{malayalamDate}}</div>
-						<div id="dateWidget-mdate-right">
-							<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
-							<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
+			<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)">
+				<div id="flipper">
+					<div id="dateWidget-front">
+						<div id="dateWidget-emonth" class="mallu">{{gregorianMonth}}</div>
+						<div id="dateWidget-dateContainer">
+							<div id="dateWidget-edate">{{gregorianDate}}</div>
+							<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
 						</div>
+
+						<div id="dateWidget-bottom">
+							<div id="dateWidget-mdate">{{malayalamDate}}</div>
+							<div id="dateWidget-mdate-right">
+								<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
+								<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
+							</div>
+						</div>
+					</div>
+					<div id="dateWidget-back">
 					</div>
 				</div>
 			</div>
