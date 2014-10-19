@@ -12,7 +12,7 @@
 			<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)">
 				<div id="flipper">
 					<div id="dateWidget-front">
-						<div id="dateWidget-emonth" class="mallu">{{gregorianMonth}}</div>
+						<div class="dateWidget-heading mallu">{{gregorianMonth}}</div>
 						<div id="dateWidget-dateContainer">
 							<div id="dateWidget-edate">{{gregorianDate}}</div>
 							<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
@@ -27,6 +27,28 @@
 						</div>
 					</div>
 					<div id="dateWidget-back">
+						<div class="dateWidget-heading mallu">വിശേഷങ്ങൾ </div>
+						<div id="dateWidget-speciality">
+							<ul>
+								<li>Thiruvonam</li>
+								<li>Njattuvelarambham</li>
+								<li>Gandhi Jayanthi</li>
+							</ul>
+						</div>
+						<div id="dateWidget-mrahu" class="mallu">
+							രാഹു : <span>{{rahuKalam}}</span>
+						</div>
+
+						<div id="dateWidget-suncontainer">
+							<div id="dateWidget-sunrise">
+								<img src="build/images/sunrise.svg" alt="sunrise" />
+								<div id="dateWidget-sunrise-time">{{sunrise}}</div>
+							</div>
+							<div id="dateWidget-sunset">
+								<img src="build/images/sunset.svg" alt="sunset" />
+								<div id="dateWidget-sunset-time">{{sunset}}</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

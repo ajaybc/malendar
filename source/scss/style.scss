@@ -91,15 +91,6 @@ footer {
 	text-align:center;
 	border-radius: 5px;
 
-	#dateWidget-emonth {
-		font-size: 22px;
-		background: #825d5b;
-		padding: 10px;
-		color: #f0e9dc;
-
-		border-radius: 5px 5px 0 0;
-	}
-
 	#dateWidget-dateContainer {
 		background: #f0e9dc;
 		padding-bottom: 15px;
@@ -159,27 +150,85 @@ footer {
 	}
 }
 
+.dateWidget-heading {
+	font-size: 22px;
+	background: #825d5b;
+	padding: 10px;
+	color: #f0e9dc;
+	text-align:center;
+
+	border-radius: 5px 5px 0 0;
+}
+
 
 #dateWidget-back {
 	transform: rotateY(180deg);
 	box-sizing: border-box;
-	background: #f0e9dc;
-	padding: 10px;
 	float: left;
 	color: #FFF;
 	border-radius: 5px;
 
+	#dateWidget-speciality {
+		background: #f0e9dc;
+		font-size: 16px;
+		color: #6f5f5c;
+		padding-top: 30px;
+		text-align: center;
+		height: 200px;
+		box-sizing: border-box;
+
+		ul {
+			li {
+				margin-bottom: 15px;
+			}
+		}
+	}
 	
 	#dateWidget-mrahu{
-		padding-top: 8px;
+		padding: 10px 5px;
+		font-size: 24px;
 		clear: both;
 		text-align: center;
+		background: #a26b61;
+
+		span {
+			font-family: Helvetica, Arial;
+			font-size: 15px;
+		}
 	}
 
-	#dateWidget-speciality {
-		font-size: 16px;
-		color: #F14A7E;
-		padding-top: 15px;
-		text-align: center;
+	#dateWidget-suncontainer {
+		@include pie-clearfix;
+		#dateWidget-sunrise, #dateWidget-sunset {
+			box-sizing: border-box;
+			height: 55px;
+			width: 125px;
+
+			img {
+				width: 45px;
+				display: block;
+				float: left;
+				margin-top: 5px;
+			}
+
+			div {
+				float: left;
+				padding-top: 20px;
+				padding-left: 2px;
+				color: #f0e9dc;
+			}
+		}
+
+		#dateWidget-sunrise {
+			background: #f0b270;
+			float: left;
+			border-radius: 0 0 0 5px;
+		}
+
+		#dateWidget-sunset {
+			background: #e38f71;
+			float: left;
+			border-radius: 0 0 5px 0;
+		}
 	}
 }
