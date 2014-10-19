@@ -14,6 +14,7 @@ angular.module('Malendar.controllers', [])
 		$scope.rahuKalam = dayDetails.Rahu;
 		$scope.sunrise = dayDetails.Sunrise;
 		$scope.sunset = dayDetails.Sunset;
+		$scope.specialities = dayDetails.Speciality;
 
 		$scope.flip = function ($event) {
 			if ($scope.flipped) {

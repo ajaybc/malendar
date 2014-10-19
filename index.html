@@ -29,11 +29,10 @@
 					<div id="dateWidget-back">
 						<div class="dateWidget-heading mallu">വിശേഷങ്ങൾ </div>
 						<div id="dateWidget-speciality">
-							<ul>
-								<li>Thiruvonam</li>
-								<li>Njattuvelarambham</li>
-								<li>Gandhi Jayanthi</li>
+							<ul data-ng-show="specialities">
+								<li data-ng-repeat="speciality in specialities">{{speciality}}</li>
 							</ul>
+							<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialities today</div>
 						</div>
 						<div id="dateWidget-mrahu" class="mallu">
 							രാഹു : <span>{{rahuKalam}}</span>
