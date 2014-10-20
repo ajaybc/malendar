@@ -44,7 +44,6 @@ angular.module('Malendar.controllers', [])
 		if (chrome.management) {
 			chrome.management.getAll(function (extensions) {
 				angular.forEach(extensions, function(extension, i) {
-					console.log(extension);
 					if (extension.isApp) {
 						$scope.applicationList.push({
 							id : extension.id,
@@ -54,6 +53,26 @@ angular.module('Malendar.controllers', [])
 						$scope.$apply();
 					}
 				});
+			});
+		}
+
+		$scope.bookmarkList = [];
+
+		if (chrome.bookmarks) {
+			chrome.bookmarks.getTree(function (allBookmarks) {
+				if (allBookmarks) {
+					bookmarksBar = allBookmarks[0].children[0].children
+					angular.forEach(bookmarksBar, function(bookmark, i) {
+						if (!bookmark.children) {
+							$scope.bookmarkList.push({
+								id : bookmark.id,
+								title : bookmark.title,
+								url : bookmark.url
+							});
+							$scope.$apply();
+						}
+					});
+				}
 			});
 		}
 	}]);

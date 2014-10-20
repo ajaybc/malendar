@@ -15,7 +15,27 @@
 					<ul>
 						<li class="has-dropdown">
 							<a class="toplinks" href="#">
-								<img src="build/images/apps.svg"/>
+								<img src="build/images/bookmarks.svg" width="16" />
+								<span>Bookmarks</span>
+							</a>
+							<div class="dropdown" id="bookmarks-dropdown">
+								<div class="dropdown-arrow-container">
+									<div class="arrow-up right"></div>
+								</div>
+								<div class="dropdown-inner">
+									<ul>
+										<li data-ng-repeat="bookmark in bookmarkList">
+											<a href="{{bookmark.url}}" title="{{bookmark.title}}">
+												{{bookmark.title}}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li class="has-dropdown">
+							<a class="toplinks" href="#">
+								<img src="build/images/apps.svg" width="16" />
 								<span>Applications</span>
 							</a>
 							<div class="dropdown" id="applications-dropdown">
@@ -23,7 +43,6 @@
 									<div class="arrow-up right"></div>
 								</div>
 								<div class="dropdown-inner">
-									{{test}}
 									<ul>
 										<li data-ng-repeat="application in applicationList">
 											<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">

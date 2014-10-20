@@ -46,6 +46,7 @@ body {
 header {
 	@include pie-clearfix;
 	#topbar-right {
+		@include pie-clearfix;
 		float: right;
 		padding-right : 5px;
 		a.toplinks {
@@ -70,6 +71,7 @@ header {
 		}
 
 		li{
+			float:left;
 
 			&.has-dropdown {
 				position: relative;
@@ -119,13 +121,13 @@ header {
 					}
 				}
 
-				#applications-dropdown {
-					width: 205px;
+				#bookmarks-dropdown {
+					width: 280px;
 					/* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
 
 					.dropdown-inner {
 						padding: 20px;
-						height: 300px;
+						max-height: 300px;
 					}
 
 					ul {
@@ -136,6 +138,41 @@ header {
 								display: block;
 								padding: 10px;
 								text-decoration: none;
+								margin-top: 3px;
+								font-size: 14px;
+								color: #825d5b;
+								white-space: nowrap;
+							    overflow: hidden;
+							    text-overflow: ellipsis; 
+							    width: 215px;
+							    border-radius: 2px;
+
+							    &:hover {
+							    	background: #f2f2f2;
+							    }
+							}
+						}
+					}
+				}
+
+				#applications-dropdown {
+					width: 285px;
+					/* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
+
+					.dropdown-inner {
+						padding: 20px;
+						max-height: 300px;
+					}
+
+					ul {
+						@include pie-clearfix;
+						li {
+							float: left;
+							a {
+								display: block;
+								padding: 10px;
+								text-decoration: none;
+								border-radius: 2px;
 								div {
 									margin-top: 3px;
 									font-size: 14px;
@@ -146,6 +183,10 @@ header {
 								    overflow: hidden;
 								    text-overflow: ellipsis; 
 								}
+
+								&:hover {
+							    	background: #f2f2f2;
+							    }
 							}
 						}
 					}
