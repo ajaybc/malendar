@@ -26,7 +26,8 @@
 									<ul>
 										<li data-ng-repeat="bookmark in bookmarkList">
 											<a href="{{bookmark.url}}" title="{{bookmark.title}}">
-												{{bookmark.title}}
+												<img src="chrome://favicon/{{bookmark.url}}" width="16" />
+												<div>{{bookmark.title}}</div>
 											</a>
 										</li>
 									</ul>

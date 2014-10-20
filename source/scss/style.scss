@@ -135,17 +135,28 @@ header {
 						li {
 							float: left;
 							a {
+								@include pie-clearfix;
 								display: block;
 								padding: 10px;
 								text-decoration: none;
 								margin-top: 3px;
-								font-size: 14px;
-								color: #825d5b;
-								white-space: nowrap;
-							    overflow: hidden;
-							    text-overflow: ellipsis; 
-							    width: 215px;
 							    border-radius: 2px;
+
+							    img {
+							    	float:left;
+							    }
+								
+								div{
+									font-size: 14px;
+									color: #825d5b;
+									white-space: nowrap;
+									overflow: hidden;
+									text-overflow: ellipsis;
+									width: 199px;
+									float: left;
+									padding-left: 10px;
+									box-sizing: border-box;
+								}
 
 							    &:hover {
 							    	background: #f2f2f2;
