@@ -27,4 +27,15 @@ angular.module('Malendar.controllers', [])
 				$event.preventDefault();
 			}
 		}
+	}])
+	
+	.controller('topBarController', ['$scope', function($scope) {
+		$scope.openApplications = function ($event) {
+			if (chrome) {
+				chrome.tabs.getCurrent(function (currentTab) {
+					chrome.tabs.update(currentTab.id, {url: 'chrome://apps/'}, function (tab) {});
+				})
+			}
+			$event.preventDefault();
+		}
 	}]);

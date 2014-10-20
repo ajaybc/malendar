@@ -1,13 +1,20 @@
 {
   "manifest_version": 2,
   "name": "Malendar",
-  "version": "0.0.1",
-
+  "version": "0.0.2",
   "description": "Malendar is a simple calendar widget made by a Malayalee for all Malayalees",
 
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
 
-  "author": "Ajay Balachandran"
+  "permissions": [
+    "tabs",
+    "management"
+  ],
+
+  "author": "Ajay Balachandran",
+  "icons": {
+      "128": "icon128.png"
+   }
 }

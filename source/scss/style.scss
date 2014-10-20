@@ -1,5 +1,9 @@
 @import "config";
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+
 @include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
 @include font-face("Meera", font-files("meera.ttf"));
 
@@ -15,6 +19,32 @@ body {
 
 	font-family: Helvetica, Arial;
 	-webkit-font-smoothing: antialiased;
+}
+
+header {
+	@include pie-clearfix;
+	#topbar-right {
+		float: right;
+		a {
+			@include pie-clearfix;
+			display: block;
+			color: #F0E9DC;
+			text-decoration: none;
+
+			font-size: 14px;
+			img {
+				float: left;
+				margin-right: 5px;
+			}
+			span {
+				display: block;
+				float:left;
+			}
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
 }
 
 footer {

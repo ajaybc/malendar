@@ -5,10 +5,23 @@
 		<meta name="viewport" content="width=device-width">
 		<title>New Tab :: Malendar</title>
 		<link rel="stylesheet" type="text/css" href="build/css/style.css">
+		<script type="text/javascript" src="build/scripts/libs.js"></script>
 	</head>
 
-	<body data-ng-app="Malendar">
-		<div id="mainContainer">
+	<body data-ng-app="Malendar"  ng-cloak>
+		<div id="mainContainer" data-ng-controller="topBarController">
+			<header>
+				<div id="topbar-right">
+					<ul>
+						<li>
+							<a href="chrome://apps" data-ng-click="openApplications($event)">
+								<img src="build/images/apps.svg"/>
+								<span>Applications</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</header>
 			<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)">
 				<div id="flipper">
 					<div id="dateWidget-front">
@@ -32,7 +45,7 @@
 							<ul data-ng-show="specialities">
 								<li data-ng-repeat="speciality in specialities">{{speciality}}</li>
 							</ul>
-							<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialities today</div>
+							<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialties today</div>
 						</div>
 						<div id="dateWidget-mrahu" class="mallu">
 							രാഹു : <span>{{rahuKalam}}</span>
@@ -53,7 +66,6 @@
 			</div>
 		</div>
 		<!-- <footer></footer> -->
-		<script type="text/javascript" src="build/scripts/libs.js"></script>
 		<script type="text/javascript" src="build/scripts/app.js"></script>
 		<script type="text/javascript" src="build/scripts/data.js"></script>
 	</body>
