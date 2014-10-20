@@ -13,11 +13,27 @@
 			<header>
 				<div id="topbar-right">
 					<ul>
-						<li>
-							<a href="chrome://apps" data-ng-click="openApplications($event)">
+						<li class="has-dropdown">
+							<a class="toplinks" href="#">
 								<img src="build/images/apps.svg"/>
 								<span>Applications</span>
 							</a>
+							<div class="dropdown" id="applications-dropdown">
+								<div class="dropdown-arrow-container">
+									<div class="arrow-up right"></div>
+								</div>
+								<div class="dropdown-inner">
+									{{test}}
+									<ul>
+										<li data-ng-repeat="application in applicationList">
+											<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
+												<img src="{{application.icon}}" width="60" />
+												<div>{{application.name}}</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>

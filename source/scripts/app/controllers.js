@@ -30,12 +30,30 @@ angular.module('Malendar.controllers', [])
 	}])
 	
 	.controller('topBarController', ['$scope', function($scope) {
-		$scope.openApplications = function ($event) {
-			if (chrome) {
-				chrome.tabs.getCurrent(function (currentTab) {
-					chrome.tabs.update(currentTab.id, {url: 'chrome://apps/'}, function (tab) {});
-				})
+		$scope.openApplication = function (appId, $event) {
+			if (chrome.management) {
+				//chrome.tabs.getCurrent(function (currentTab) {
+					chrome.management.launchApp(appId, function (tab) {});
+				//})
 			}
 			$event.preventDefault();
+		}
+
+		$scope.applicationList = [];
+
+		if (chrome.management) {
+			chrome.management.getAll(function (extensions) {
+				angular.forEach(extensions, function(extension, i) {
+					console.log(extension);
+					if (extension.isApp) {
+						$scope.applicationList.push({
+							id : extension.id,
+							name : extension.shortName,
+							icon : extension.icons[extension.icons.length - 1].url
+						});
+						$scope.$apply();
+					}
+				});
+			});
 		}
 	}]);

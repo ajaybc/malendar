@@ -7,6 +7,28 @@
 @include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
 @include font-face("Meera", font-files("meera.ttf"));
 
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: rgba(255,255,255, 0);
+    -webkit-border-radius: 100px;
+}
+::-webkit-scrollbar:hover {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6f5f5c;
+    -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active  {
+    background: #6f5f5c;
+}
+
+
 html {
 	height: 100%;
 	width: 100%;
@@ -25,13 +47,15 @@ header {
 	@include pie-clearfix;
 	#topbar-right {
 		float: right;
-		a {
+		padding-right : 5px;
+		a.toplinks {
 			@include pie-clearfix;
 			display: block;
 			color: #F0E9DC;
 			text-decoration: none;
 
 			font-size: 14px;
+			padding:10px;
 			img {
 				float: left;
 				margin-right: 5px;
@@ -42,6 +66,90 @@ header {
 			}
 			&:hover {
 				text-decoration: underline;
+			}
+		}
+
+		li{
+
+			&.has-dropdown {
+				position: relative;
+
+				.dropdown {
+					position: absolute;
+					right: 0;
+					top: 30px;
+					display: block;
+					
+					.dropdown-arrow-container {
+						position:relative;
+						height: 5px;
+						.arrow-up {
+							position:absolute;
+
+							&.right {
+								right: 25px;
+							}
+						}
+					}
+
+					.dropdown-inner {
+						overflow: auto;
+						background: #F0E9DC;
+						box-shadow: 0 2px 10px rgba(0,0,0,.2);
+						border-radius: 2px;
+					}
+
+					.arrow-up {
+						width: 0; 
+						height: 0; 
+						border-left: 6px solid transparent;
+						border-right: 6px solid transparent;
+						
+						border-bottom: 6px solid #F0E9DC;
+					}
+				}
+
+				&:hover {
+					/* background: #F0E9DC;
+					a{
+						color: #825d5b;
+					} */
+					.dropdown {
+						display: block;
+					}
+				}
+
+				#applications-dropdown {
+					width: 205px;
+					/* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
+
+					.dropdown-inner {
+						padding: 20px;
+						height: 300px;
+					}
+
+					ul {
+						@include pie-clearfix;
+						li {
+							float: left;
+							a {
+								display: block;
+								padding: 10px;
+								text-decoration: none;
+								div {
+									margin-top: 3px;
+									font-size: 14px;
+									text-align:center;
+									color: #825d5b;
+									white-space: nowrap; 
+								    width: 60px; 
+								    overflow: hidden;
+								    text-overflow: ellipsis; 
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -60,7 +168,6 @@ footer {
 }
 
 #mainContainer {
-	padding: 10px;
 }
 
 #dateWidget {
