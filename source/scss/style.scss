@@ -1,4 +1,5 @@
 @import "config";
+@import "weathericons";
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
@@ -419,6 +420,67 @@ footer {
 			background: #e38f71;
 			float: left;
 			border-radius: 0 0 5px 0;
+		}
+	}
+}
+
+#weatherContainer {
+	@include pie-clearfix;
+	text-align: center;
+	padding-top: 80px;
+	ul {
+		display: inline-block;
+		li {
+			float: left;
+			display: block;
+			color: #F0E9DC;
+			margin-right : 90px;
+			opacity : 0.6;
+			cursor: pointer;
+			transition: opacity 0.5s;
+
+			.weatherBlock-left {
+				float: left;
+				font-size: 45px;
+				padding-top: 5px;
+			}
+			.weatherBlock-right {
+				padding-left:20px;
+				font-size: 25px;
+				float: left;
+				position: relative;
+
+				.weatherBlock-right-day {
+					padding-top: 12px;
+					opacity: 1;
+					position: absolute;
+					transition: opacity 0.7s;
+				}
+
+				.weatherBlock-right-temp {
+					opacity: 0;
+					position: absolute;
+					transition: opacity 0.7s;
+				}
+			}
+
+			&:hover {
+				opacity : 1;
+				.weatherBlock-right {
+					.weatherBlock-right-day {
+						padding-top: 12px;
+						opacity: 0;
+					}
+
+					.weatherBlock-right-temp {
+						opacity: 1;
+					}
+				}
+			}
+			
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 	}
 }
