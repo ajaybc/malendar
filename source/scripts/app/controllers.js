@@ -81,11 +81,13 @@ angular.module('Malendar.controllers', [])
 	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', function($scope, weatherService, districtProvider) {
 		$scope.forecasts = [];
 		weatherService.getWeatherForcastFromYahoo('kochi')
-			.success(function(data, status, headers, config) {
-			    $scope.forecasts =  (function (forecasts) {
-			    	for (i = 1; i <= 3; i++) {
-			    		$scope.forecasts.push(forecast[i]);
+			.then(function(forecastData) {
+			    angular.forEach(forecastData, function(forecast, index) {
+			    	if (index > 0 && index < 4) {
+						$scope.forecasts.push(forecast);
 			    	}
-			    })(data.query.results.rss.channel.item.forecast);
+				});
+			}, function () {
+				console.log('No weather');
 			});
 	}]);

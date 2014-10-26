@@ -125,17 +125,53 @@ angular.module('Malendar.services', [])
 	.service('weatherService', ['$http', '$q', 'districtProvider',function ($http, $q, districtProvider) {
 		return {
 			getWeatherForcastFromYahoo : function (districtName) {
-				yahooWoeid = districtProvider.getDistricts()[districtName]['yahooWoeid'];
-				var request = $http.get(
-					'https://query.yahooapis.com/v1/public/yql',
-					{
-						params : {
-		                    'q' : "select * from xml where url='http://weather.yahooapis.com/forecastrss?w=" + yahooWoeid + "&u=c'",
-		                    'format' : 'json'
-	                	}
-	                }
-                );
-                return request;
+				return $q(function(resolve, reject) {
+					now = moment();
+					noCache = false;
+					cachedWeatherJson = window.localStorage.getItem('weather_' + districtName);
+					if (cachedWeatherJson) {
+						cachedWeather = JSON.parse(cachedWeatherJson);
+						cachedMoment = moment(cachedWeather.cacheTime);
+						if (now.date() == cachedMoment.date()) {
+							//If this cache is from the same date
+							if (now.diff(cachedMoment, 'seconds') < 3600) {
+								//If this cache is not older than 1 hour
+								//We can accept it
+								resolve(cachedWeather.forecast);
+							} else {
+								noCache = true;
+							}
+						} else {
+							noCache = true;
+						}
+					} else {
+						noCache = true;
+					}
+
+					if (noCache) {
+						console.log('not from cache');
+						yahooWoeid = districtProvider.getDistricts()[districtName]['yahooWoeid'];
+						var request = $http.get(
+							'https://query.yahooapis.com/v1/public/yql',
+							{
+								params : {
+				                    'q' : "select * from xml where url='http://weather.yahooapis.com/forecastrss?w=" + yahooWoeid + "&u=c'",
+				                    'format' : 'json'
+			                	}
+			                }
+		                ).success(function(data, status, headers, config) {
+		                	console.log({
+		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
+		                		'forecast' : data.query.results.rss.channel.item.forecast
+		                	});
+		                	window.localStorage.setItem('weather_' + districtName, JSON.stringify({
+		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
+		                		'forecast' : data.query.results.rss.channel.item.forecast
+		                	}));
+						    resolve(data.query.results.rss.channel.item.forecast);
+						});
+					}
+				});
 			},
 
 			getWeatherIconFromCode : function (code) {

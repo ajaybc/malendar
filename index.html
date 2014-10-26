@@ -102,7 +102,7 @@
 			</div>
 			<div data-ng-controller="weatherController" id="weatherContainer">
 				<ul>
-					<!-- <li class="weatherBlock" data-ng-repeat="forecast in forecasts">
+					<li class="weatherBlock" data-ng-repeat="forecast in forecasts">
 						<div class="weatherBlock-left">
 							<i class="wi wi-day-lightning"></i>
 						</div>
@@ -111,50 +111,8 @@
 								{{forecast.day}}
 							</div>
 							<div class="weatherBlock-right-temp">
-								<div class="weatherBlock-right-max">{{forecast.high}}</div>
-								<div class="weatherBlock-right-min">{{forecast.low}}</div>
-							</div>
-						</div>
-					</li> -->
-					<li class="weatherBlock">
-						<div class="weatherBlock-left">
-							<i class="wi wi-day-lightning"></i>
-						</div>
-						<div class="weatherBlock-right">
-							<div class="weatherBlock-right-day">
-								Thu
-							</div>
-							<div class="weatherBlock-right-temp">
-								<div class="weatherBlock-right-max">24</div>
-								<div class="weatherBlock-right-min">21</div>
-							</div>
-						</div>
-					</li>
-					<li class="weatherBlock">
-						<div class="weatherBlock-left">
-							<i class="wi wi-day-lightning"></i>
-						</div>
-						<div class="weatherBlock-right">
-							<div class="weatherBlock-right-day">
-								Thu
-							</div>
-							<div class="weatherBlock-right-temp">
-								<div class="weatherBlock-right-max">24</div>
-								<div class="weatherBlock-right-min">21</div>
-							</div>
-						</div>
-					</li>
-					<li class="weatherBlock">
-						<div class="weatherBlock-left">
-							<i class="wi wi-day-lightning"></i>
-						</div>
-						<div class="weatherBlock-right">
-							<div class="weatherBlock-right-day">
-								Thu
-							</div>
-							<div class="weatherBlock-right-temp">
-								<div class="weatherBlock-right-max">24</div>
-								<div class="weatherBlock-right-min">21</div>
+								<div class="weatherBlock-right-max">{{forecast.high}}&deg;</div>
+								<div class="weatherBlock-right-min">{{forecast.low}}&deg;</div>
 							</div>
 						</div>
 					</li>
