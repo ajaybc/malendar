@@ -53,6 +53,8 @@ body {
 
 header {
 	@include pie-clearfix;
+	width: 100%;
+	top: 0;
 	#topbar-right {
 		@include pie-clearfix;
 		float: right;
@@ -89,6 +91,7 @@ header {
 					right: 0;
 					top: 30px;
 					display: none;
+					z-index: 10;
 					
 					.dropdown-arrow-container {
 						position:relative;
@@ -227,9 +230,6 @@ footer {
 	font-family:"Meera";
 }
 
-#mainContainer {
-}
-
 #dateWidget {
 	@include pie-clearfix;
 	box-sizing: border-box;
@@ -237,7 +237,7 @@ footer {
 	height: 341px;
 
 	margin-top: 180px;
-	transition:all .2s cubic-bezier(.4,0,.2,1);
+	transition:box-shadow .2s cubic-bezier(.4,0,.2,1);
 
 	
 

@@ -9,120 +9,118 @@
 	</head>
 
 	<body data-ng-app="Malendar"  ng-cloak>
-		<div id="mainContainer" data-ng-controller="topBarController">
-			<header>
-				<div id="topbar-right">
-					<ul>
-						<li class="has-dropdown">
-							<a class="toplinks" href="#">
-								<img src="build/images/bookmarks.svg" width="16" />
-								<span>Bookmarks</span>
-							</a>
-							<div class="dropdown" id="bookmarks-dropdown">
-								<div class="dropdown-arrow-container">
-									<div class="arrow-up right"></div>
-								</div>
-								<div class="dropdown-inner">
-									<ul>
-										<li data-ng-repeat="bookmark in bookmarkList">
-											<a href="{{bookmark.url}}" title="{{bookmark.title}}">
-												<img src="chrome://favicon/{{bookmark.url}}" width="16" />
-												<div>{{bookmark.title}}</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</li>
-						<li class="has-dropdown">
-							<a class="toplinks" href="#">
-								<img src="build/images/apps.svg" width="16" />
-								<span>Applications</span>
-							</a>
-							<div class="dropdown" id="applications-dropdown">
-								<div class="dropdown-arrow-container">
-									<div class="arrow-up right"></div>
-								</div>
-								<div class="dropdown-inner">
-									<ul>
-										<li data-ng-repeat="application in applicationList">
-											<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
-												<img src="{{application.icon}}" width="60" />
-												<div>{{application.name}}</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</header>
-			<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)">
-				<div id="flipper">
-					<div id="dateWidget-front">
-						<div class="dateWidget-heading mallu">{{gregorianMonth}}</div>
-						<div id="dateWidget-dateContainer">
-							<div id="dateWidget-edate">{{gregorianDate}}</div>
-							<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
-						</div>
-
-						<div id="dateWidget-bottom">
-							<div id="dateWidget-mdate">{{malayalamDate}}</div>
-							<div id="dateWidget-mdate-middle">
-								<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
-								<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
-							</div>
-							<div id="dateWidget-mdate-right" title="{{condition.text}}">
-								<i class="{{condition.code | weatherIcon}}"></i>
-								<!-- <i class="wi wi-thunderstorm"></i> -->
-								<div>{{condition.temp}}&deg;</div>
-							</div>
-						</div>
-					</div>
-					<div id="dateWidget-back">
-						<div class="dateWidget-heading mallu">വിശേഷങ്ങൾ </div>
-						<div id="dateWidget-speciality">
-							<ul data-ng-show="specialities">
-								<li data-ng-repeat="speciality in specialities">{{speciality}}</li>
-							</ul>
-							<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialties today</div>
-						</div>
-						<div id="dateWidget-mrahu" class="mallu">
-							രാഹു : <span>{{rahuKalam}}</span>
-						</div>
-
-						<div id="dateWidget-suncontainer">
-							<div id="dateWidget-sunrise">
-								<img src="build/images/sunrise.svg" alt="sunrise" />
-								<div id="dateWidget-sunrise-time">{{sunrise}}</div>
-							</div>
-							<div id="dateWidget-sunset">
-								<img src="build/images/sunset.svg" alt="sunset" />
-								<div id="dateWidget-sunset-time">{{sunset}}</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div data-ng-controller="weatherController" id="weatherContainer">
+		<header data-ng-controller="topBarController">
+			<div id="topbar-right">
 				<ul>
-					<li class="weatherBlock" data-ng-repeat="forecast in forecasts" title="{{forecast.text}}">
-						<div class="weatherBlock-left">
-							<i class="{{forecast.code | weatherIcon}}"></i>
-						</div>
-						<div class="weatherBlock-right">
-							<div class="weatherBlock-right-day">
-								{{forecast.day}}
+					<li class="has-dropdown">
+						<a class="toplinks" href="#">
+							<img src="build/images/bookmarks.svg" width="16" />
+							<span>Bookmarks</span>
+						</a>
+						<div class="dropdown" id="bookmarks-dropdown">
+							<div class="dropdown-arrow-container">
+								<div class="arrow-up right"></div>
 							</div>
-							<div class="weatherBlock-right-temp">
-								<div class="weatherBlock-right-max">{{forecast.high}}&deg;</div>
-								<div class="weatherBlock-right-min">{{forecast.low}}&deg;</div>
+							<div class="dropdown-inner">
+								<ul>
+									<li data-ng-repeat="bookmark in bookmarkList">
+										<a href="{{bookmark.url}}" title="{{bookmark.title}}">
+											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
+											<div>{{bookmark.title}}</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="has-dropdown">
+						<a class="toplinks" href="#">
+							<img src="build/images/apps.svg" width="16" />
+							<span>Applications</span>
+						</a>
+						<div class="dropdown" id="applications-dropdown">
+							<div class="dropdown-arrow-container">
+								<div class="arrow-up right"></div>
+							</div>
+							<div class="dropdown-inner">
+								<ul>
+									<li data-ng-repeat="application in applicationList">
+										<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
+											<img src="{{application.icon}}" width="60" />
+											<div>{{application.name}}</div>
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</li>
 				</ul>
 			</div>
+		</header>
+		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)" style="margin-top:{{marginTop}}">
+			<div id="flipper">
+				<div id="dateWidget-front">
+					<div class="dateWidget-heading mallu">{{gregorianMonth}}</div>
+					<div id="dateWidget-dateContainer">
+						<div id="dateWidget-edate">{{gregorianDate}}</div>
+						<div id="dateWidget-mday" class="mallu">{{gregorianWeekDay}}</div>
+					</div>
+
+					<div id="dateWidget-bottom">
+						<div id="dateWidget-mdate">{{malayalamDate}}</div>
+						<div id="dateWidget-mdate-middle">
+							<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
+							<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
+						</div>
+						<div id="dateWidget-mdate-right" title="{{condition.text}}">
+							<i class="{{condition.code | weatherIcon}}"></i>
+							<!-- <i class="wi wi-thunderstorm"></i> -->
+							<div>{{condition.temp}}&deg;</div>
+						</div>
+					</div>
+				</div>
+				<div id="dateWidget-back">
+					<div class="dateWidget-heading mallu">വിശേഷങ്ങൾ </div>
+					<div id="dateWidget-speciality">
+						<ul data-ng-show="specialities">
+							<li data-ng-repeat="speciality in specialities">{{speciality}}</li>
+						</ul>
+						<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialties today</div>
+					</div>
+					<div id="dateWidget-mrahu" class="mallu">
+						രാഹു : <span>{{rahuKalam}}</span>
+					</div>
+
+					<div id="dateWidget-suncontainer">
+						<div id="dateWidget-sunrise">
+							<img src="build/images/sunrise.svg" alt="sunrise" />
+							<div id="dateWidget-sunrise-time">{{sunrise}}</div>
+						</div>
+						<div id="dateWidget-sunset">
+							<img src="build/images/sunset.svg" alt="sunset" />
+							<div id="dateWidget-sunset-time">{{sunset}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div data-ng-controller="weatherController" id="weatherContainer">
+			<ul>
+				<li class="weatherBlock" data-ng-repeat="forecast in forecasts" title="{{forecast.text}}">
+					<div class="weatherBlock-left">
+						<i class="{{forecast.code | weatherIcon}}"></i>
+					</div>
+					<div class="weatherBlock-right">
+						<div class="weatherBlock-right-day">
+							{{forecast.day}}
+						</div>
+						<div class="weatherBlock-right-temp">
+							<div class="weatherBlock-right-max">{{forecast.high}}&deg;</div>
+							<div class="weatherBlock-right-min">{{forecast.low}}&deg;</div>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<!-- <footer></footer> -->
 		<script type="text/javascript" src="build/scripts/app.js"></script>

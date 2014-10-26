@@ -3,7 +3,6 @@ angular.module('Malendar.controllers', [])
 		todayMoment = moment();
 		todayString = todayMoment.format("D/M/YYYY");
 		dayDetails = Malendar.dates[todayString];
-		console.log(dayDetails);
 		$scope.flipped = false;
 		$scope.gregorianMonth = monthProvider.getGregorianMonthName(todayMoment.month());
 		$scope.gregorianDate = todayMoment.date();
@@ -17,6 +16,24 @@ angular.module('Malendar.controllers', [])
 		$scope.specialities = dayDetails.Speciality;
 
 		$scope.condition = {};
+
+		$scope.marginTop = calculateMargin($(window).height());
+
+		console.log($scope.marginTop);
+		$(window).resize(function () {
+			$scope.marginTop = calculateMargin($(window).height());
+			$scope.$apply();
+		});
+
+		function calculateMargin(screenHeight) {
+			calculated = ((screenHeight - 35) / 2) - (600 / 2);
+			if (calculated < 35) {
+				return '35px';
+			} else {
+				return calculated + 'px'
+			}
+		}
+
 
 		weatherService.getWeatherFromYahoo('kochi')
 			.then(function(forecastData) {
