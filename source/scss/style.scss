@@ -8,6 +8,14 @@
 @include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
 @include font-face("Meera", font-files("meera.ttf"));
 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	/**
+	 * Test : Hack for font smoothing : http://stackoverflow.com/a/19582105/923109
+	 */
+	@include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
+	@include font-face("Meera", font-files("meera.ttf"));
+}
+
 
 ::-webkit-scrollbar {
     width: 5px;
@@ -40,7 +48,7 @@ body {
 	width: 100%;
 	height: 100%;
 
-	font-family: Helvetica, Arial;
+	font-family: Arial, Helvetica;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -253,6 +261,7 @@ footer {
 			box-shadow: 0 17px 50px 0 rgba(0,0,0,.19);
 		}
 		box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		border-radius: 5px;
 	}
 
 	&.flipped{
@@ -306,20 +315,20 @@ footer {
 		float: left;
 		color: #f0e9dc;
 		#dateWidget-mdate {
-			font-size: 60px;
+			font-size: 40px;
 			float: left;
-			padding:10px;
-			width: 85px;
-			box-sizing:border-box;
+			padding: 20px 0;
+			width: 75px;
+			box-sizing: border-box;
 			background: #f0b270;
 			border-radius: 0 0 0 5px;
 		}
 
-		#dateWidget-mdate-right {
+		#dateWidget-mdate-middle {
 			float: left;
 			padding-left:5px;
 			background: #e38f71;
-			width: 165px;
+			width: 110px;
 			height: 80px;
 			text-align: left;
 			padding-left: 10px;
@@ -328,13 +337,29 @@ footer {
 
 			padding-top: 16px;
 
-			border-radius: 0 0 5px 0;
-
 			#dateWidget-mmonth{
 				padding-bottom: 6px;
 			}
 
 			#dateWidget-nakshatra{
+			}
+		}
+
+		#dateWidget-mdate-right {
+			background: #a26b61;
+			float: left;
+			border-radius: 0 0 5px 0;
+			width: 65px;
+			height: 80px;
+			box-sizing: border-box;
+			padding: 13px 0;
+
+			i {
+				font-size: 28px;
+			}
+
+			div {
+				margin-top: 10px;
 			}
 		}
 	}
@@ -427,21 +452,43 @@ footer {
 #weatherContainer {
 	@include pie-clearfix;
 	text-align: center;
-	padding-top: 80px;
+	padding-top: 40px;
+	color: #F0E9DC;
+	#weatherNow {
+		@include pie-clearfix;
+		text-align: center;
+		padding-bottom: 50px;
+		#weatherNow-left {
+			font-size: 60px;
+			display: inline-block;
+		}
+		#weatherNow-right {
+			display: inline-block;
+			padding-left: 10px;
+			#weatherNow-temp {
+				font-size: 32px;
+			}
+
+			#weatherNow-text{
+				padding-top:3px;
+				text-align: left;
+			}
+		}
+	}
 	ul {
 		display: inline-block;
 		li {
 			float: left;
 			display: block;
-			color: #F0E9DC;
 			margin-right : 90px;
-			opacity : 0.6;
+			opacity : 0.4;
 			cursor: pointer;
 			transition: opacity 0.5s;
+			-webkit-transform: translateZ(0);
 
 			.weatherBlock-left {
 				float: left;
-				font-size: 45px;
+				font-size: 35px;
 			}
 			.weatherBlock-right {
 				padding-left:20px;
@@ -450,16 +497,20 @@ footer {
 				position: relative;
 
 				.weatherBlock-right-day {
-					padding-top: 12px;
+					padding-top: 8px;
 					opacity: 1;
 					position: absolute;
-					transition: opacity 0.7s;
+					transition: opacity 0.7s, padding-top 0.7s;
+					-webkit-transform: translateZ(0);
+					font-size: 20px;
 				}
 
 				.weatherBlock-right-temp {
 					opacity: 0;
 					position: absolute;
 					transition: opacity 0.7s;
+					-webkit-transform: translateZ(0);
+					font-size: 18px;
 				}
 			}
 
