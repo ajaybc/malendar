@@ -1,5 +1,5 @@
 var Malendar = {}
-Malendar.app = angular.module('Malendar', ['Malendar.controllers', 'Malendar.services'])
+Malendar.app = angular.module('Malendar', ['Malendar.controllers', 'Malendar.services', 'Malendar.filters'])
 				.config( [
 				    '$compileProvider',
 				    function( $compileProvider )

@@ -102,9 +102,9 @@
 			</div>
 			<div data-ng-controller="weatherController" id="weatherContainer">
 				<ul>
-					<li class="weatherBlock" data-ng-repeat="forecast in forecasts">
+					<li class="weatherBlock" data-ng-repeat="forecast in forecasts" title="{{forecast.text}}">
 						<div class="weatherBlock-left">
-							<i class="wi wi-day-lightning"></i>
+							<i class="{{forecast.code | weatherIcon}}"></i>
 						</div>
 						<div class="weatherBlock-right">
 							<div class="weatherBlock-right-day">
