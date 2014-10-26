@@ -1,5 +1,5 @@
 angular.module('Malendar.controllers', [])
-	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', function($scope, monthProvider, dayProvider) {
+	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', 'weatherService', function($scope, monthProvider, dayProvider, weatherService) {
 		todayMoment = moment();
 		todayString = todayMoment.format("D/M/YYYY");
 		dayDetails = Malendar.dates[todayString];
@@ -15,6 +15,17 @@ angular.module('Malendar.controllers', [])
 		$scope.sunrise = dayDetails.Sunrise;
 		$scope.sunset = dayDetails.Sunset;
 		$scope.specialities = dayDetails.Speciality;
+
+		$scope.condition = {};
+
+		weatherService.getWeatherFromYahoo('kochi')
+			.then(function(forecastData) {
+				console.log(forecastData);
+			    $scope.condition = forecastData.condition;
+			    console.log($scope.condition);
+			}, function () {
+				console.log('No weather');
+			});
 
 		$scope.flip = function ($event) {
 			if ($scope.flipped) {
@@ -80,9 +91,9 @@ angular.module('Malendar.controllers', [])
 
 	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', function($scope, weatherService, districtProvider) {
 		$scope.forecasts = [];
-		weatherService.getWeatherForcastFromYahoo('kochi')
+		weatherService.getWeatherFromYahoo('kochi')
 			.then(function(forecastData) {
-			    angular.forEach(forecastData, function(forecast, index) {
+			    angular.forEach(forecastData.forecast, function(forecast, index) {
 			    	if (index > 0 && index < 4) {
 						$scope.forecasts.push(forecast);
 			    	}

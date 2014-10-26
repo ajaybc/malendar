@@ -73,9 +73,10 @@
 								<div id="dateWidget-mmonth" class="mallu">{{malayalamMonth}}</div>
 								<div id="dateWidget-nakshatra" class="mallu">{{malayalamNakshatra}}</div>
 							</div>
-							<div id="dateWidget-mdate-right">
-								<i class="wi wi-thunderstorm"></i>
-								<div>24&deg;</div>
+							<div id="dateWidget-mdate-right" title="{{condition.text}}">
+								<i class="{{condition.code | weatherIcon}}"></i>
+								<!-- <i class="wi wi-thunderstorm"></i> -->
+								<div>{{condition.temp}}&deg;</div>
 							</div>
 						</div>
 					</div>

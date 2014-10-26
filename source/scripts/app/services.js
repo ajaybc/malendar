@@ -124,7 +124,7 @@ angular.module('Malendar.services', [])
 
 	.service('weatherService', ['$http', '$q', 'districtProvider',function ($http, $q, districtProvider) {
 		return {
-			getWeatherForcastFromYahoo : function (districtName) {
+			getWeatherFromYahoo : function (districtName) {
 				return $q(function(resolve, reject) {
 					now = moment();
 					noCache = false;
@@ -137,7 +137,7 @@ angular.module('Malendar.services', [])
 							if (now.diff(cachedMoment, 'seconds') < 3600) {
 								//If this cache is not older than 1 hour
 								//We can accept it
-								resolve(cachedWeather.forecast);
+								resolve({'forecast' : cachedWeather.forecast, 'condition' : cachedWeather.condition});
 							} else {
 								noCache = true;
 							}
@@ -160,15 +160,12 @@ angular.module('Malendar.services', [])
 			                	}
 			                }
 		                ).success(function(data, status, headers, config) {
-		                	console.log({
-		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
-		                		'forecast' : data.query.results.rss.channel.item.forecast
-		                	});
 		                	window.localStorage.setItem('weather_' + districtName, JSON.stringify({
 		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
-		                		'forecast' : data.query.results.rss.channel.item.forecast
+		                		'forecast' : data.query.results.rss.channel.item.forecast,
+		                		'condition' : data.query.results.rss.channel.item.condition
 		                	}));
-						    resolve(data.query.results.rss.channel.item.forecast);
+						    resolve({'forecast' : data.query.results.rss.channel.item.forecast, 'condition' : data.query.results.rss.channel.item.condition});
 						});
 					}
 				});
