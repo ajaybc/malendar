@@ -122,7 +122,30 @@
 				</li>
 			</ul>
 		</div>
-		<!-- <footer></footer> -->
+		<footer class="withnews" data-ng-controller="newsController">
+			<div class="news-container">
+				<div class="news-left mallu">
+					വാർത്തകൾ 
+				</div>
+				<div class="news-right mallu">
+					<div class="news-ul-wrapper" data-ng-mouseover="ticker.paused = true" data-ng-mouseleave="ticker.paused = false">
+						<ul style="margin-top:{{ticker.marginTop}}px" class="animated">
+							<li data-ng-repeat="newsItem in newsArray">
+								<a href="{{newsItem.link}}" data-ng-mouseover="showDescription(newsItem.description)" data-ng-mouseleave="hideDescription()">
+									{{newsItem.title}}
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div data-ng-show="hoverDescription" class="news-description mallu">
+						<div>
+							{{hoverDescription | htmlCleaner}}
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</footer>
 		<script type="text/javascript" src="build/scripts/app.js"></script>
 		<script type="text/javascript" src="build/scripts/data.js"></script>
 	</body>

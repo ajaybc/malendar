@@ -1,5 +1,6 @@
 @import "config";
 @import "weathericons";
+@import "font-awesome/font-awesome";
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
@@ -224,6 +225,76 @@ footer {
 	bottom: 0;
 	height : 50px;
 	width : 100%;
+	box-sizing: border-box;
+
+	&.withnews {
+		background: #E38F71;
+
+		.news-left {
+			height : 50px;
+			box-sizing: border-box;
+			padding: 20px;
+			font-size: 20px;
+			color : #6F5F5C;
+			background: #F0E9DC;
+			float: left;
+			font-weight: 700;
+		}
+
+		.news-right {
+			padding: 15px 0;
+			position:relative;
+			.news-description{
+				position: absolute;
+				bottom: 60px;
+				padding: 10px;
+				background: #825D5B;
+				color: #F0E9DC;
+				text-align: justify;
+				width: 100%;
+				box-sizing:border-box;
+
+				div {
+					overflow: hidden;
+					max-height: 60px;
+					line-height: 20px;
+				}
+			}
+
+			.news-ul-wrapper {
+				overflow: hidden;
+				height: 30px;
+				ul {
+					@include pie-clearfix;
+					display: block;
+					&.animated {
+						transition: margin-top 0.3s cubic-bezier(.4,0,.2,1);
+					}
+					li {
+						height: 20px;
+						margin-top: 5px;
+						margin-bottom: 5px;
+						padding-left: 20px;
+						float: left;
+						&:before {
+						    content: " • ";
+						    color: #F0B270; /* or whatever color you prefer */
+						}
+						a {
+							color: #F0E9DC;
+							text-decoration: none;
+							font-size: 20px;
+							opacity: 0.95;
+
+							&:hover {
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 .mallu {

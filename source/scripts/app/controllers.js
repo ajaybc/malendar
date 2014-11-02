@@ -118,4 +118,47 @@ angular.module('Malendar.controllers', [])
 			}, function () {
 				console.log('No weather');
 			});
+	}])
+
+
+	.controller('newsController', ['$scope', '$interval', 'newsService', function($scope, $interval, newsService) {
+		$scope.newsArray = [];
+
+		$scope.hoverDescription = '';
+		$scope.ticker = {};
+		$scope.ticker.paused = false;
+		$scope.ticker.marginTop = 0;
+		$scope.showDescription = function (description) {
+			$scope.hoverDescription = description;
+		}
+
+		$scope.hideDescription = function () {
+			$scope.hoverDescription = '';
+		}
+
+		$scope.ticker.start = function () {
+			$scope.ticker.timer = $interval(function() {
+				if ($scope.ticker.paused == false) {
+					$scope.ticker.next();
+				}
+			}, 3000);
+		}
+
+		$scope.ticker.next = function () {
+			if (($('.news-ul-wrapper ul').height() + ($scope.ticker.marginTop - 30)) > 30) {
+				$scope.ticker.marginTop -= 30;
+			} else {
+				$scope.ticker.marginTop = 0;
+			}
+		}
+
+		newsService.getNews('mathrubhumi')
+			.then(function(newsData) {
+			    angular.forEach(newsData.news, function(news, index) {
+			    	$scope.newsArray.push(news);
+				});
+				$scope.ticker.start();
+			}, function () {
+				console.log('No news');
+			});
 	}]);

@@ -34,7 +34,7 @@ angular.module('Malendar.services', [])
 					'മിഥുനം', 
 					'കര്‍ക്കടകം'
 				]
-				return monthNames[monthIndex];
+				return monthNames[monthIndex - 1];
 			}
 		}
 	})
@@ -166,6 +166,61 @@ angular.module('Malendar.services', [])
 		                		'condition' : data.query.results.rss.channel.item.condition
 		                	}));
 						    resolve({'forecast' : data.query.results.rss.channel.item.forecast, 'condition' : data.query.results.rss.channel.item.condition});
+						});
+					}
+				});
+			}
+		}
+	}])
+
+
+	.service('newsService', ['$http', '$q', function ($http, $q) {
+		return {
+			getNews : function (source) {
+				return $q(function(resolve, reject) {
+					now = moment();
+					noCache = false;
+					cachedNewsJson = window.localStorage.getItem('news_' + source);
+					if (cachedNewsJson) {
+						cachedNews = JSON.parse(cachedNewsJson);
+						cachedMoment = moment(cachedNews.cacheTime);
+						if (now.date() == cachedMoment.date()) {
+							//If this cache is from the same date
+							if (now.diff(cachedMoment, 'seconds') < 3600) {
+								//If this cache is not older than 1 hour
+								//We can accept it
+								resolve({'news' : cachedNews.news});
+							} else {
+								noCache = true;
+							}
+						} else {
+							noCache = true;
+						}
+					} else {
+						noCache = true;
+					}
+
+					if (noCache) {
+						console.log(source == 'manorama');
+						if (source == 'manorama') {
+							sourceUrl = 'http://www.manoramaonline.com/rss/news/';
+						} else {
+							sourceUrl = 'http://feeds.feedburner.com/mathrubhumi';
+						}
+						var request = $http.get(
+							'https://query.yahooapis.com/v1/public/yql',
+							{
+								params : {
+				                    'q' : 'select title, description, link from xml where url="' + sourceUrl + '" and itemPath="/rss/channel/item" LIMIT 10',
+				                    'format' : 'json'
+			                	}
+			                }
+		                ).success(function(data, status, headers, config) {
+		                	window.localStorage.setItem('news_' + source, JSON.stringify({
+		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
+		                		'news' : data.query.results.item,
+		                	}));
+						    resolve({'news' : data.query.results.item});
 						});
 					}
 				});
