@@ -1,6 +1,4 @@
 @import "config";
-@import "weathericons";
-@import "font-awesome/font-awesome";
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
@@ -47,6 +45,7 @@ body {
 	background: #6d6d77;
 	width: 100%;
 	height: 100%;
+	position:relative;
 
 	font-family: Arial, Helvetica;
 	-webkit-font-smoothing: antialiased;
@@ -222,15 +221,29 @@ header {
 }
 
 footer {
-	background: #EEEEEE;
 	position: fixed;
 	bottom: 0;
 	height : 50px;
 	width : 100%;
 	box-sizing: border-box;
 
+	#settings-link{
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0px;
+		height: 100%;
+		padding-top: 15px;
+		padding-right: 5px;
+		color: #F0E9DC;
+		font-size: 24px;
+	}
+
 	&.withnews {
 		background: #E38F71;
+		#settings-link{
+			background: #E38F71;
+		}
 
 		.news-left {
 			height : 50px;
@@ -593,4 +606,80 @@ footer {
 			}
 		}
 	}
+}
+
+
+#settings-modal {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top:0;
+
+	width: 400px;
+	padding: 10px;
+
+	background:#F0E9DC;
+	z-index: 12;
+
+	.settings-row{
+		@include pie-clearfix;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		font-size: 14px;
+
+		.settings-row-left {
+			float: left;
+			width: 50%;
+			box-sizing: border-box;
+			padding-right:5px;
+
+			&.paddedLabel{
+				padding-top: 8px;
+				padding-bottom: 5px;
+			}
+		}
+
+		.settings-row-right {
+			float: left;
+			width: 50%;
+			box-sizing: border-box;
+			padding-left:5px;
+		}
+
+		.settings-row-full{
+		}
+	}
+
+	input[type="submit"] {
+		background: #825D5B;
+		padding:10px;
+		color: #FFF;
+		border-radius: 5px;
+		border:none;
+		cursor: pointer;
+	}
+}
+
+select.formFld {
+	width: 100%;
+	padding: 5px;
+
+	&.mallu {
+		//HACK TO FIX THE FONT ISSUE
+		font-size: 16px;
+		padding-bottom: 0;
+	}
+}
+
+
+#settings-overlay {
+	width: 100%;
+	height: 100%;
+	background: #825D5B;
+	opacity: 0.6;
+	position:absolute;
+	top:0;
+	z-index: 11;
 }

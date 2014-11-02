@@ -1,4 +1,38 @@
 angular.module('Malendar.services', [])
+	.factory('settingsProvider', function () {
+		return {
+			getDistrictId : function () {
+				if (districtId = window.localStorage.getItem('config_districtId')) {
+					return districtId;
+				} else {
+					return 'kochi';
+				}
+			},
+			getNewsSource : function () {
+				if (newsSource = window.localStorage.getItem('config_newsSource')) {
+					return newsSource;
+				} else {
+					return 'manorama';
+				}
+			},
+			getNewsEnabled : function () {
+				if (newsEnabled = window.localStorage.getItem('config_newsEnabled')) {
+					return newsEnabled;
+				} else {
+					return 'enabled';
+				}
+			},
+			setNewsSource : function (newsSource) {
+				window.localStorage.setItem('config_newsSource', newsSource);
+			},
+			setDistrictId : function (districtId) {
+				window.localStorage.setItem('config_districtId', districtId);
+			},
+			setNewsEnabled : function (newsEnabled) {
+				window.localStorage.setItem('config_newsEnabled', newsEnabled);
+			}
+		}
+	})
 	.factory('monthProvider', function () {
 		return {
 			getGregorianMonthName : function (monthIndex) {

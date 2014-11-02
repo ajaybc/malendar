@@ -126,12 +126,12 @@
 				</li>
 			</ul>
 		</div>
-		<footer class="withnews" data-ng-controller="newsController">
+		<footer data-ng-class="(newsArray.length > 0)?'withnews':''" data-ng-controller="newsController">
 			<div class="news-container">
-				<div class="news-left mallu">
+				<div class="news-left mallu" data-ng-show="newsArray.length > 0">
 					വാർത്തകൾ 
 				</div>
-				<div class="news-right mallu">
+				<div class="news-right mallu" data-ng-show="newsArray.length > 0">
 					<div class="news-ul-wrapper" data-ng-mouseover="ticker.paused = true" data-ng-mouseleave="ticker.paused = false">
 						<ul style="margin-top:{{ticker.marginTop}}px" class="animated">
 							<li data-ng-repeat="newsItem in newsArray">
@@ -143,13 +143,59 @@
 					</div>
 					<div data-ng-show="hoverDescription" class="news-description mallu">
 						<div>
-							{{hoverDescription | htmlCleaner}}
+							{{hoverDescription}}
 						</div>
 					</div>
 				</div>
-
+				<a href="#" id="settings-link" data-ng-click="openSettings($event)">
+					<i class="fa fa-cog"></i>
+				</a>
 			</div>
 		</footer>
+
+		<div data-ng-controller="settingsController" data-ng-show="showSettings">
+			<div id="settings-modal">
+				<h3>Settings</h3>
+				<hr/>
+				<div class="settings-container">
+					<form data-ng-submit="saveSettings($event)">
+						<div class="settings-row">
+							<div class="settings-row-left paddedLabel">City</div>
+							<div class="settings-row-right">
+								<select class="formFld mallu" data-ng-model="districtId">
+									<option value="{{id}}"  ng-selected="id == districtId" data-ng-repeat="(id, district) in districts">{{district.malayalamName}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="settings-row">
+							<div class="settings-row-left">News</div>
+							<div class="settings-row-right">
+								<label><input type="radio" name="newsEnabled" data-ng-model="newsEnabled" value="enabled" /> Enabled</label>
+								<label><input type="radio" name="newsEnabled" data-ng-model="newsEnabled" value="disabled" /> Disabled</label>
+							</div>
+						</div>
+
+						<div class="settings-row" data-ng-show="newsEnabled == 'enabled'">
+							<div class="settings-row-left paddedLabel">News Source</div>
+							<div class="settings-row-right">
+								<select class="formFld mallu" data-ng-model="newsSource">
+									<option value="mathrubhumi">മാതൃഭൂമി </option>
+									<option value="manorama">മലയാള മനോരമ </option>
+								</select>
+							</div>
+						</div>
+						<div class="settings-row">
+							<div class="settings-row-full">
+								<input type="submit" value="Save Settings" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div id="settings-overlay" data-ng-click="showSettings=false"></div>
+		</div>
+		
 		<script type="text/javascript" src="build/scripts/app.js"></script>
 		<script type="text/javascript" src="build/scripts/data.js"></script>
 	</body>

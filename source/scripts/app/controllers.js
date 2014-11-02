@@ -1,5 +1,5 @@
 angular.module('Malendar.controllers', [])
-	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', 'weatherService', function($scope, monthProvider, dayProvider, weatherService) {
+	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', 'weatherService', 'settingsProvider', function($scope, monthProvider, dayProvider, weatherService, settingsProvider) {
 		todayMoment = moment();
 		todayString = todayMoment.format("D/M/YYYY");
 		dayDetails = Malendar.dates[todayString];
@@ -35,7 +35,7 @@ angular.module('Malendar.controllers', [])
 		}
 
 
-		weatherService.getWeatherFromYahoo('kochi')
+		weatherService.getWeatherFromYahoo(settingsProvider.getDistrictId())
 			.then(function(forecastData) {
 				console.log(forecastData);
 			    $scope.condition = forecastData.condition;
@@ -106,9 +106,9 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', function($scope, weatherService, districtProvider) {
+	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', 'settingsProvider', function($scope, weatherService, districtProvider, settingsProvider) {
 		$scope.forecasts = [];
-		weatherService.getWeatherFromYahoo('kochi')
+		weatherService.getWeatherFromYahoo(settingsProvider.getDistrictId())
 			.then(function(forecastData) {
 			    angular.forEach(forecastData.forecast, function(forecast, index) {
 			    	if (index > 0 && index < 4) {
@@ -120,8 +120,29 @@ angular.module('Malendar.controllers', [])
 			});
 	}])
 
+	.controller('settingsController', ['$scope', '$window', '$rootScope', 'districtProvider', 'settingsProvider', function($scope, $window, $rootScope, districtProvider, settingsProvider) {
+		$scope.showSettings = false;
+		$scope.districts = districtProvider.getDistricts();
+		$scope.districtId = settingsProvider.getDistrictId();
+		$scope.newsSource = settingsProvider.getNewsSource();
+		$scope.newsEnabled = settingsProvider.getNewsEnabled();
 
-	.controller('newsController', ['$scope', '$interval', 'newsService', function($scope, $interval, newsService) {
+		$scope.saveSettings = function ($event) {
+			settingsProvider.setDistrictId($scope.districtId);
+			settingsProvider.setNewsSource($scope.newsSource);
+			settingsProvider.setNewsEnabled($scope.newsEnabled);
+
+			$event.preventDefault();
+			$window.location.reload();
+		}
+
+		$rootScope.$on('openSettings', function () {
+			$scope.showSettings = true;
+		});
+	}])
+
+
+	.controller('newsController', ['$scope', '$interval', '$rootScope', '$filter', 'newsService', 'settingsProvider', function($scope, $interval, $rootScope, $filter, newsService, settingsProvider) {
 		$scope.newsArray = [];
 
 		$scope.hoverDescription = '';
@@ -129,7 +150,7 @@ angular.module('Malendar.controllers', [])
 		$scope.ticker.paused = false;
 		$scope.ticker.marginTop = 0;
 		$scope.showDescription = function (description) {
-			$scope.hoverDescription = description;
+			$scope.hoverDescription = $filter('htmlCleaner')(description);
 		}
 
 		$scope.hideDescription = function () {
@@ -152,13 +173,22 @@ angular.module('Malendar.controllers', [])
 			}
 		}
 
-		newsService.getNews('mathrubhumi')
-			.then(function(newsData) {
-			    angular.forEach(newsData.news, function(news, index) {
-			    	$scope.newsArray.push(news);
+
+		if (settingsProvider.getNewsEnabled() == 'enabled') {
+			//Fetch news only if it is enabled
+			newsService.getNews(settingsProvider.getNewsSource())
+				.then(function(newsData) {
+				    angular.forEach(newsData.news, function(news, index) {
+				    	$scope.newsArray.push(news);
+					});
+					$scope.ticker.start();
+				}, function () {
+					console.log('No news');
 				});
-				$scope.ticker.start();
-			}, function () {
-				console.log('No news');
-			});
+		}
+
+		$scope.openSettings = function ($event) {
+			$rootScope.$emit('openSettings', {});
+			$event.preventDefault();
+		}
 	}]);
