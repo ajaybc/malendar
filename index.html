@@ -85,7 +85,7 @@
 						<ul data-ng-show="specialities">
 							<li data-ng-repeat="speciality in specialities">{{speciality}}</li>
 						</ul>
-						<div data-ng-hide="specialities.length" id="dateWidget-speciality-error">No specialties today</div>
+						<div data-ng-hide="specialities.length > 0" id="dateWidget-speciality-error">No specialties today</div>
 					</div>
 					<div id="dateWidget-mrahu" class="mallu">
 						രാഹു : <span>{{rahuKalam}}</span>
