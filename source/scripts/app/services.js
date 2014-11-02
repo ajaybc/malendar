@@ -201,7 +201,6 @@ angular.module('Malendar.services', [])
 					}
 
 					if (noCache) {
-						console.log(source == 'manorama');
 						if (source == 'manorama') {
 							sourceUrl = 'http://www.manoramaonline.com/rss/news/';
 						} else {

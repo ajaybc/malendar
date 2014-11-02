@@ -68,9 +68,11 @@ header {
 
 			font-size: 14px;
 			padding:10px;
-			img {
+			i {
+				display: block;
 				float: left;
 				margin-right: 5px;
+				color: #E38F71;
 			}
 			span {
 				display: block;
@@ -490,11 +492,16 @@ footer {
 			height: 55px;
 			width: 125px;
 
-			img {
+			i {
 				width: 45px;
 				display: block;
 				float: left;
+				font-size: 24px;
 				margin-top: 5px;
+				box-sizing: border-box;
+				padding-left: 5px;
+				padding-top: 10px;
+				color: #F0E9DC;
 			}
 
 			div {
