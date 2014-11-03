@@ -186,20 +186,19 @@ angular.module('Malendar.services', [])
 						console.log('not from cache');
 						yahooWoeid = districtProvider.getDistricts()[districtName]['yahooWoeid'];
 						var request = $http.get(
-							'https://query.yahooapis.com/v1/public/yql',
+							'http://api-malendar.rhcloud.com/weather.php',
 							{
 								params : {
-				                    'q' : "select * from xml where url='http://weather.yahooapis.com/forecastrss?w=" + yahooWoeid + "&u=c'",
-				                    'format' : 'json'
+				                    'yahooWoeid' : yahooWoeid
 			                	}
 			                }
 		                ).success(function(data, status, headers, config) {
 		                	window.localStorage.setItem('weather_' + districtName, JSON.stringify({
 		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
-		                		'forecast' : data.query.results.rss.channel.item.forecast,
-		                		'condition' : data.query.results.rss.channel.item.condition
+		                		'forecast' : data.forecast,
+		                		'condition' : data.condition
 		                	}));
-						    resolve({'forecast' : data.query.results.rss.channel.item.forecast, 'condition' : data.query.results.rss.channel.item.condition});
+						    resolve({'forecast' : data.forecast, 'condition' : data.condition});
 						});
 					}
 				});
@@ -235,25 +234,19 @@ angular.module('Malendar.services', [])
 					}
 
 					if (noCache) {
-						if (source == 'manorama') {
-							sourceUrl = 'http://www.manoramaonline.com/rss/news/';
-						} else {
-							sourceUrl = 'http://feeds.feedburner.com/mathrubhumi';
-						}
 						var request = $http.get(
-							'https://query.yahooapis.com/v1/public/yql',
+							'http://api-malendar.rhcloud.com/news.php',
 							{
 								params : {
-				                    'q' : 'select title, description, link from xml where url="' + sourceUrl + '" and itemPath="/rss/channel/item" LIMIT 10',
-				                    'format' : 'json'
+				                    'source' : source
 			                	}
 			                }
 		                ).success(function(data, status, headers, config) {
 		                	window.localStorage.setItem('news_' + source, JSON.stringify({
 		                		'cacheTime' : now.format('YYYY-MM-DD HH:mm:ss'),
-		                		'news' : data.query.results.item,
+		                		'news' : data.news,
 		                	}));
-						    resolve({'news' : data.query.results.item});
+						    resolve({'news' : data.news});
 						});
 					}
 				});
