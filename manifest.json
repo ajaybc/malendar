@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Malendar - A New Tab page for Malayalees",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Malendar is a simple new tab page with a malayalam calendar widget made by a Malayalee for all Malayalees",
 
   "chrome_url_overrides" : {
