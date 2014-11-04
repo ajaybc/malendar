@@ -19,18 +19,33 @@
 							<span>Bookmarks</span>
 						</a>
 						<div class="dropdown" id="bookmarks-dropdown">
-							<div class="dropdown-arrow-container">
+							<div class="dropdown-arrow-container"  data-ng-if="bookmarkBackId">
 								<div class="arrow-up right"></div>
 							</div>
 							<div class="dropdown-inner">
-								<ul>
-									<li data-ng-repeat="bookmark in bookmarkList">
-										<a href="{{bookmark.url}}" title="{{bookmark.title}}">
+								<div id="bookmarks-back" data-ng-show="bookmarks.backId">
+									<a href="#" data-ng-click="openBookmarkFolder(bookmarks.backId, $event)" data-ng-show="bookmarks.backId > 0">
+										<i class="fa fa-angle-left"></i> Back
+									</a>
+									<a href="#" data-ng-click="openBookmarkFolder(bookmarks.backId, $event)" data-ng-show="bookmarks.backId == 0">
+										<i class="fa fa-angle-left"></i> Back to All Bookmarks
+									</a>
+								</div>
+								<ul data-ng-show="bookmarks.list">
+									<li data-ng-repeat="bookmark in bookmarks.list">
+										<a href="{{bookmark.url}}" title="{{bookmark.title}}" data-ng-if="bookmark.url">
 											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
 											<div>{{bookmark.title}}</div>
 										</a>
+										<a href="#" title="{{bookmark.title}}" data-ng-if="!bookmark.url" data-ng-click="openBookmarkFolder(bookmark.id, $event)">
+											<i class="fa fa-folder"></i>
+											<div>{{bookmark.title}} &gt;</div>
+										</a>
 									</li>
 								</ul>
+								<div id="bookmarks-empty" data-ng-show="bookmarks.list.length == 0">
+									No bookmarks available
+								</div>
 							</div>
 						</div>
 					</li>
@@ -46,7 +61,7 @@
 							</div>
 							<div class="dropdown-inner">
 								<ul>
-									<li data-ng-repeat="application in applicationList">
+									<li data-ng-repeat="application in applications.list">
 										<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
 											<img src="{{application.icon}}" width="60" />
 											<div>{{application.name}}</div>

@@ -67,13 +67,14 @@ angular.module('Malendar.controllers', [])
 			$event.preventDefault();
 		}
 
-		$scope.applicationList = [];
+		$scope.applications = {};
+		$scope.applications.list = [];
 
 		if (chrome.management) {
 			chrome.management.getAll(function (extensions) {
 				angular.forEach(extensions, function(extension, i) {
 					if (extension.isApp) {
-						$scope.applicationList.push({
+						$scope.applications.list.push({
 							id : extension.id,
 							name : extension.shortName,
 							icon : extension.icons[extension.icons.length - 1].url
@@ -84,24 +85,40 @@ angular.module('Malendar.controllers', [])
 			});
 		}
 
-		$scope.bookmarkList = [];
+		$scope.bookmarks = {};
+		$scope.bookmarks.list = [];
 
 		if (chrome.bookmarks) {
-			chrome.bookmarks.getTree(function (allBookmarks) {
-				if (allBookmarks) {
-					bookmarksBar = allBookmarks[0].children[0].children
-					angular.forEach(bookmarksBar, function(bookmark, i) {
-						if (!bookmark.children) {
-							$scope.bookmarkList.push({
-								id : bookmark.id,
-								title : bookmark.title,
-								url : bookmark.url
-							});
-							$scope.$apply();
-						}
-					});
+			populateBookmarks('1');	//By default open the bookmarks bar folder
+			$scope.openBookmarkFolder = function (bookmarkId, $event) {
+				populateBookmarks(bookmarkId);
+				if ($event) {
+					$event.preventDefault();
 				}
-			});
+			}
+
+			function populateBookmarks(id) {
+				console.log(id);
+				$scope.bookmarks.list = [];
+				chrome.bookmarks.getChildren(id, function (bookmarkTree) {
+					angular.forEach(bookmarkTree, function(bookmark, i) {
+						$scope.bookmarks.list.push({
+							'id' : bookmark.id,
+							'title' : bookmark.title,
+							'url' : bookmark.url
+						});
+					});
+
+					chrome.bookmarks.get(id, function (bookmark) {
+						if (bookmark[0].parentId) {
+							$scope.bookmarks.backId = bookmark[0].parentId;
+						} else {
+							$scope.bookmarks.backId = 0;
+						}
+						$scope.$apply();
+					});
+				});
+			}
 		}
 	}])
 
