@@ -98,15 +98,24 @@ angular.module('Malendar.controllers', [])
 			}
 
 			function populateBookmarks(id) {
-				console.log(id);
 				$scope.bookmarks.list = [];
+				$scope.bookmarks.iconList = [];
 				chrome.bookmarks.getChildren(id, function (bookmarkTree) {
 					angular.forEach(bookmarkTree, function(bookmark, i) {
-						$scope.bookmarks.list.push({
-							'id' : bookmark.id,
-							'title' : bookmark.title,
-							'url' : bookmark.url
-						});
+						if (bookmark.title) {
+							$scope.bookmarks.list.push({
+								'id' : bookmark.id,
+								'title' : bookmark.title,
+								'url' : bookmark.url
+							});
+						} else {
+							$scope.bookmarks.iconList.push({
+								'id' : bookmark.id,
+								'title' : bookmark.title,
+								'url' : bookmark.url
+							});
+						}
+
 					});
 
 					chrome.bookmarks.get(id, function (bookmark) {

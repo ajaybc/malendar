@@ -193,6 +193,10 @@ header {
 
 					ul {
 						@include pie-clearfix;
+						&#bookmarks-iconlist {
+							border-bottom: 1px dotted #CCC;
+							padding-bottom: 5px;
+						}
 						li {
 							float: left;
 							a {

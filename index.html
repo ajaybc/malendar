@@ -31,7 +31,14 @@
 										<i class="fa fa-angle-left"></i> Back to All Bookmarks
 									</a>
 								</div>
-								<ul data-ng-show="bookmarks.list">
+								<ul data-ng-show="bookmarks.iconList.length > 0" id="bookmarks-iconlist">
+									<li data-ng-repeat="bookmark in bookmarks.iconList">
+										<a href="{{bookmark.url}}" title="{{bookmark.url}}" data-ng-if="bookmark.url">
+											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
+										</a>
+									</li>
+								</ul>
+								<ul data-ng-show="bookmarks.list.length > 0">
 									<li data-ng-repeat="bookmark in bookmarks.list">
 										<a href="{{bookmark.url}}" title="{{bookmark.title}}" data-ng-if="bookmark.url">
 											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
@@ -43,7 +50,7 @@
 										</a>
 									</li>
 								</ul>
-								<div id="bookmarks-empty" data-ng-show="bookmarks.list.length == 0">
+								<div id="bookmarks-empty" data-ng-show="bookmarks.list.length == 0 && bookmarks.iconList.length == 0">
 									No bookmarks available
 								</div>
 							</div>
