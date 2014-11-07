@@ -81,11 +81,11 @@
 				</ul>
 			</div>
 		</header>
-		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" data-ng-click="flip($event)" style="margin-top:{{marginTop}}">
-			<a href="#" id="dateWidget-prev">
-				<i class="fa fa-angle-left"></i>
+		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" style="margin-top:{{marginTop}}">
+			<a href="#" id="dateWidget-prev" data-ng-click="prevDay($event)">
+				<i class="fa fa-angle-left" data-ng-show="showPrev"></i>
 			</a>
-			<div id="flipper">
+			<div id="flipper" data-ng-click="flip($event)">
 				<div id="dateWidget-front">
 					<div class="dateWidget-heading mallu">{{gregorianMonth}}</div>
 					<div id="dateWidget-dateContainer">
@@ -106,7 +106,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div id="dateWidget-back">
 					<div class="dateWidget-heading mallu">വിശേഷങ്ങൾ </div>
 					<div id="dateWidget-speciality">
@@ -133,8 +133,8 @@
 					</div>
 				</div>
 			</div>
-			<a href="#" id="dateWidget-next">
-				<i class="fa fa-angle-right"></i>
+			<a href="#" id="dateWidget-next" data-ng-click="nextDay($event)">
+				<i class="fa fa-angle-right" data-ng-show="showNext"></i>
 			</a>
 		</div>
 		<div data-ng-controller="weatherController" id="weatherContainer">

@@ -1,25 +1,62 @@
 angular.module('Malendar.controllers', [])
 	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', 'weatherService', 'settingsProvider', function($scope, monthProvider, dayProvider, weatherService, settingsProvider) {
-		todayMoment = moment();
-		todayString = todayMoment.format("D/M/YYYY");
-		dayDetails = Malendar.dates[todayString];
-		$scope.flipped = false;
-		$scope.gregorianMonth = monthProvider.getGregorianMonthName(todayMoment.month());
-		$scope.gregorianDate = todayMoment.date();
-		$scope.gregorianWeekDay = dayProvider.getGregorianWeekDayName(todayMoment.isoWeekday() - 1);
-		$scope.malayalamDate = (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay;
-		$scope.malayalamMonth = monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth);
-		$scope.malayalamNakshatra = dayDetails.MNakshatra;
-		$scope.rahuKalam = dayDetails.Rahu;
-		$scope.sunrise = dayDetails.Sunrise;
-		$scope.sunset = dayDetails.Sunset;
-		$scope.specialities = dayDetails.Speciality;
+		
+		$scope.activeMoment = moment();
+		renderDateWidget();
+
+		$scope.nextDay = function($event) {
+			if ($scope.showNext) {
+				$scope.activeMoment = $scope.activeMoment.add({'day' : 1});
+			}
+			renderDateWidget();
+			if ($event) {
+				$event.preventDefault();
+			}
+		}
+
+		$scope.prevDay = function($event) {
+			if ($scope.showPrev) {
+				$scope.activeMoment = $scope.activeMoment.subtract({'day' : 1});
+			}
+			renderDateWidget();
+			if ($event) {
+				$event.preventDefault();
+			}
+		}
+
+		function renderDateWidget () {
+			dayString = $scope.activeMoment.format("D/M/YYYY");
+			dayDetails = Malendar.dates[dayString];
+			$scope.flipped = false;
+			$scope.gregorianMonth = monthProvider.getGregorianMonthName($scope.activeMoment.month());
+			$scope.gregorianDate = $scope.activeMoment.date();
+			$scope.gregorianWeekDay = dayProvider.getGregorianWeekDayName($scope.activeMoment.isoWeekday() - 1);
+			$scope.malayalamDate = (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay;
+			$scope.malayalamMonth = monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth);
+			$scope.malayalamNakshatra = dayDetails.MNakshatra;
+			$scope.rahuKalam = dayDetails.Rahu;
+			$scope.sunrise = dayDetails.Sunrise;
+			$scope.sunset = dayDetails.Sunset;
+			$scope.specialities = dayDetails.Speciality;
+
+			if ($scope.activeMoment.month() == 11 && $scope.activeMoment.date() == 31) {
+				//If 31st December. Hide next button. Because we dont have the data right now
+				$scope.showNext = false;
+			} else {
+				$scope.showNext = true;
+			}
+
+			if ($scope.activeMoment.month() == 0 && $scope.activeMoment.date() == 1) {
+				//If 1st Jan. Hide prev button. Because we dont have the data right now
+				$scope.showPrev = false;
+			} else {
+				$scope.showPrev = true;
+			}
+		}
 
 		$scope.condition = {};
 
 		$scope.marginTop = calculateMargin($(window).height());
-
-		console.log($scope.marginTop);
 		$(window).resize(function () {
 			$scope.marginTop = calculateMargin($(window).height());
 			$scope.$apply();
