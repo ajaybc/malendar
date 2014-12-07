@@ -170,7 +170,7 @@
 			</div>
 			<div id="calendarDays-container">
 				<ul>
-					<li data-ng-repeat="day in days" class="calendarDays-block borderRight">
+					<li data-ng-repeat="day in days" class="calendarDays-block borderRight" data-ng-class="{holiday:day.holiday}">
 						<div class="calendarDays-day">{{day.gregorianDate}}</div>
 						<div class="calendarDays-bottom">
 							<div class="calendarDays-bottom-left">

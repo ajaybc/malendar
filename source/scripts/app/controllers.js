@@ -260,7 +260,7 @@ angular.module('Malendar.controllers', [])
 	.controller('calendarController', ['$scope', 'monthProvider', function($scope, monthProvider) {
 		$scope.days = [];
 
-		d = moment("2014-3-12");
+		d = moment("2014-11-12");
 		today = d;
 		currentMonth = today.month();
 		currentYear = today.year();
@@ -281,13 +281,37 @@ angular.module('Malendar.controllers', [])
 			if (additionalDays) {
 				//If there are additional days, then we add them to the start of the calendar month
 				for (i=(additionalDays - 1), j=0; i >= 0; i--, j++) {
-					$scope.days[j] = getDayDetails(lastDayOfMonth - i, currentMonth + 1, currentYear);
+					dayDetails = getDayDetails(lastDayOfMonth - i, currentMonth + 1, currentYear);
+					if (dayDetails.dayOfWeek == 0) {
+						//Sunday
+						dayDetails.holiday = true;
+					} else {
+						dayDetails.holiday = false;
+					}
+					$scope.days[j] = dayDetails;
 				}
 			}
 		}
 
+
+		saturdayCount = 0;
 		for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
-			$scope.days.push(getDayDetails(i, currentMonth + 1, currentYear));
+			dayDetails = getDayDetails(i, currentMonth + 1, currentYear);
+			if (dayDetails.dayOfWeek == 0) {
+				//Sunday
+				dayDetails.holiday = true;
+			} else if (dayDetails.dayOfWeek == 6) {
+				//Saturday
+				saturdayCount++;
+				if (saturdayCount == 2) {
+					//Second saturday
+					dayDetails.holiday = true;
+				}
+			} else {
+				dayDetails.holiday = false;
+			}
+
+			$scope.days.push(dayDetails);
 		}
 
 		function getDayDetails (day, month, year) {
@@ -296,9 +320,27 @@ angular.module('Malendar.controllers', [])
 				'gregorianDate' : day,
 				'malayalamDate' : (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay,
 				'malayalamMonth' : monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth),
-				'malayalamNakshatra' : dayDetails.MNakshatra
+				'malayalamNakshatra' : dayDetails.MNakshatra,
+				'dayOfWeek' : dayDetails.dayOfWeek
 			};
 		}
 
-		console.log($scope.days);
+		/*generationNext();
+		//console.log($scope.days);
+		//
+		function generationNext () {
+			start = moment('2014-1-1', 'YYYY-M-D');
+			newData = {};
+			newData[start.format('D/M/YYYY')] = Malendar.dates[start.format('D/M/YYYY')];
+			newData[start.format('D/M/YYYY')].day = start.day();
+			//end = start.endOf('year');
+			for (i = 0; i < 364; i++) {
+				start.add({'day' : 1});
+				newData[start.format('D/M/YYYY')] = Malendar.dates[start.format('D/M/YYYY')];
+				newData[start.format('D/M/YYYY')].dayOfWeek = start.day();
+			}
+
+			console.log(newData);
+			console.log(JSON.stringify(newData));
+		}*/
 	}]);

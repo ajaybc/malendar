@@ -792,11 +792,13 @@ select.formFld {
 			float: left;
 			box-sizing: border-box;
 			width: percentage(1/7);
+			height: 115px;
 			padding: 10px 0 0 0;
 			display: block;
 			text-align: center;
 			color: #6f5f5c;
 			border-bottom:1px solid #CCC;
+
 
 			.dummyDay {
 				//Padding Days
@@ -809,13 +811,19 @@ select.formFld {
 
 			.calendarDays-day {
 				font-size: 70px;
+				font-weight: 700;
 				padding-top: 5px;
 				padding-bottom: 0;
 			}
 
+			&.holiday{
+				.calendarDays-day {
+					color: #E38F71;
+				}
+			}
+
 			.calendarDays-bottom {
 				@include pie-clearfix;
-				margin-top: 5px;
 
 				.calendarDays-bottom-left {
 					float: left;
