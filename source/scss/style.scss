@@ -381,7 +381,6 @@ footer {
 	height: 341px;
 
 	margin-top: 180px;
-	transition:box-shadow .2s cubic-bezier(.4,0,.2,1);
 
 	margin-left: auto;
 	margin-right: auto;
@@ -766,15 +765,39 @@ select.formFld {
  * Calendar
  */
 #calendarWidget {
-	margin: 100px auto 0 auto;
+	margin: 50px auto 0 auto;
 	width: 960px;
+	cursor: default;
+
+	#monthNameContainer {
+		color: #f0e9dc;
+		#gregorianMonth {
+			font-size: 36px;
+			text-align:center;
+		}
+
+		#malayalamMonth{
+			font-size: 18px;
+			text-align:center;
+		}
+	}
+
+	#calendarContainer {
+		transition:box-shadow .2s cubic-bezier(.4,0,.2,1);
+		&:hover {
+			box-shadow: 0 17px 50px 0 rgba(0,0,0,.19);
+		}
+		box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	}
 
 	#calendarTitle-container {
 		@include pie-clearfix;
+		border-radius: 5px 5px 0 0;
+		background: #825d5b;
+		
 		li {
 			display: block;
 			float: left;
-			background: #825d5b;
 			text-align: center;
 			color: #f0e9dc;
 			box-sizing: border-box;
@@ -788,11 +811,14 @@ select.formFld {
 		@include pie-clearfix;
 
 		background: #f0e9dc;
+		border-radius: 0 0 5px 5px;
+		overflow: hidden;
+
 		li {
 			float: left;
 			box-sizing: border-box;
 			width: percentage(1/7);
-			height: 115px;
+			height: 118px;
 			padding: 10px 0 0 0;
 			display: block;
 			text-align: center;
@@ -814,6 +840,7 @@ select.formFld {
 				font-weight: 700;
 				padding-top: 5px;
 				padding-bottom: 0;
+				text-shadow: rgba(255, 255, 255, 0.5) 1px 1px 1px;
 			}
 
 			&.holiday{
@@ -834,10 +861,10 @@ select.formFld {
 
 				.calendarDays-bottom-right {
 					float: left;
-					padding-left: 10px;
+					padding-left: 5px;
 					padding-top: 10px;
 					color: #825d5b;
-					font-size: 18px;
+					font-size: 20px;
 				}
 			}
 		}

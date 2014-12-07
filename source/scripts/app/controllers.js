@@ -260,8 +260,7 @@ angular.module('Malendar.controllers', [])
 	.controller('calendarController', ['$scope', 'monthProvider', function($scope, monthProvider) {
 		$scope.days = [];
 
-		d = moment("2014-11-12");
-		today = d;
+		today = moment();
 		currentMonth = today.month();
 		currentYear = today.year();
 		lastDayOfMonth = today.endOf('month').date();
@@ -275,6 +274,7 @@ angular.module('Malendar.controllers', [])
 			}
 		}
 
+		additionalDays = 0;
 		if ((($scope.days.length + lastDayOfMonth ) / 7) > 5) {
 			//Means this month will have 5 or more weeks
 			additionalDays = ($scope.days.length + lastDayOfMonth ) % 7;

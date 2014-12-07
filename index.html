@@ -157,31 +157,41 @@
 		</div>
 
 		<div id="calendarWidget" data-ng-controller="calendarController">
-			<div id="calendarTitle-container">
-				<ul class="mallu">
-					<li>ഞായർ</li>
-					<li>തിങ്കൾ</li> 
-					<li>ചൊവ്വ</li> 
-					<li>ബുധൻ</li> 
-					<li>വ്യാഴം</li> 
-					<li>വെള്ളി</li> 
-					<li>ശനി</li> 
-				</ul>
+			<div id="monthNameContainer" class="mallu">
+				<div id="gregorianMonth">
+					നവംബർ
+				</div>
+				<div id="malayalamMonth">
+					വൃശ്ചികം - ധനു
+				</div>
 			</div>
-			<div id="calendarDays-container">
-				<ul>
-					<li data-ng-repeat="day in days" class="calendarDays-block borderRight" data-ng-class="{holiday:day.holiday}">
-						<div class="calendarDays-day">{{day.gregorianDate}}</div>
-						<div class="calendarDays-bottom">
-							<div class="calendarDays-bottom-left">
-								{{day.malayalamDate}}
+			<div id="calendarContainer">
+				<div id="calendarTitle-container">
+					<ul class="mallu">
+						<li>ഞായർ</li>
+						<li>തിങ്കൾ</li> 
+						<li>ചൊവ്വ</li> 
+						<li>ബുധൻ</li> 
+						<li>വ്യാഴം</li> 
+						<li>വെള്ളി</li> 
+						<li>ശനി</li> 
+					</ul>
+				</div>
+				<div id="calendarDays-container">
+					<ul>
+						<li data-ng-repeat="day in days" class="calendarDays-block" data-ng-class="{holiday:day.holiday, borderRight:(($index + 1)%7 != 0)}">
+							<div class="calendarDays-day">{{day.gregorianDate}}</div>
+							<div class="calendarDays-bottom">
+								<div class="calendarDays-bottom-left">
+									{{day.malayalamDate}}
+								</div>
+								<div class="calendarDays-bottom-right mallu">
+									<div>{{day.malayalamNakshatra}}</div>
+								</div>
 							</div>
-							<div class="calendarDays-bottom-right mallu">
-								<div>{{day.malayalamNakshatra}}</div>
-							</div>
-						</div>
-					</li>
-				</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
