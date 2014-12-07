@@ -81,7 +81,7 @@
 				</ul>
 			</div>
 		</header>
-		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" style="margin-top:{{marginTop}}">
+		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" style="margin-top:{{marginTop}}; display:none;">
 			<a href="#" id="dateWidget-prev" data-ng-click="prevDay($event)">
 				<i class="fa fa-angle-left" data-ng-show="showPrev"></i>
 			</a>
@@ -137,7 +137,7 @@
 				<i class="fa fa-angle-right" data-ng-show="showNext"></i>
 			</a>
 		</div>
-		<div data-ng-controller="weatherController" id="weatherContainer">
+		<div data-ng-controller="weatherController" id="weatherContainer" style="display:none;">
 			<ul>
 				<li class="weatherBlock" data-ng-repeat="forecast in forecasts" title="{{forecast.text}}">
 					<div class="weatherBlock-left">
@@ -155,6 +155,36 @@
 				</li>
 			</ul>
 		</div>
+
+		<div id="calendarWidget" data-ng-controller="calendarController">
+			<div id="calendarTitle-container">
+				<ul class="mallu">
+					<li>ഞായർ</li>
+					<li>തിങ്കൾ</li> 
+					<li>ചൊവ്വ</li> 
+					<li>ബുധൻ</li> 
+					<li>വ്യാഴം</li> 
+					<li>വെള്ളി</li> 
+					<li>ശനി</li> 
+				</ul>
+			</div>
+			<div id="calendarDays-container">
+				<ul>
+					<li data-ng-repeat="day in days" class="calendarDays-block borderRight">
+						<div class="calendarDays-day">{{day.gregorianDate}}</div>
+						<div class="calendarDays-bottom">
+							<div class="calendarDays-bottom-left">
+								{{day.malayalamDate}}
+							</div>
+							<div class="calendarDays-bottom-right mallu">
+								<div>{{day.malayalamNakshatra}}</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
 		<footer data-ng-class="(newsArray.length > 0)?'withnews':''" data-ng-controller="newsController">
 			<div class="news-container">
 				<div class="news-left mallu" data-ng-show="newsArray.length > 0">

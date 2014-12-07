@@ -254,4 +254,51 @@ angular.module('Malendar.controllers', [])
 			$rootScope.$emit('openSettings', {});
 			$event.preventDefault();
 		}
+	}])
+
+
+	.controller('calendarController', ['$scope', 'monthProvider', function($scope, monthProvider) {
+		$scope.days = [];
+
+		d = moment("2014-3-12");
+		today = d;
+		currentMonth = today.month();
+		currentYear = today.year();
+		lastDayOfMonth = today.endOf('month').date();
+		firstMomentOfMonth = today.startOf('month');
+
+
+		if (firstMomentOfMonth.day() != 0) {
+			//Means we need to insert some padding days
+			for (i = 0; i < firstMomentOfMonth.day(); i++) {
+				$scope.days.push({});
+			}
+		}
+
+		if ((($scope.days.length + lastDayOfMonth ) / 7) > 5) {
+			//Means this month will have 5 or more weeks
+			additionalDays = ($scope.days.length + lastDayOfMonth ) % 7;
+			if (additionalDays) {
+				//If there are additional days, then we add them to the start of the calendar month
+				for (i=(additionalDays - 1), j=0; i >= 0; i--, j++) {
+					$scope.days[j] = getDayDetails(lastDayOfMonth - i, currentMonth + 1, currentYear);
+				}
+			}
+		}
+
+		for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
+			$scope.days.push(getDayDetails(i, currentMonth + 1, currentYear));
+		}
+
+		function getDayDetails (day, month, year) {
+			dayDetails = Malendar.dates[day + '/' + month + '/' + year];
+			return {
+				'gregorianDate' : day,
+				'malayalamDate' : (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay,
+				'malayalamMonth' : monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth),
+				'malayalamNakshatra' : dayDetails.MNakshatra
+			};
+		}
+
+		console.log($scope.days);
 	}]);
