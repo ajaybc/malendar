@@ -771,6 +771,7 @@ select.formFld {
 
 	#monthNameContainer {
 		color: #f0e9dc;
+		padding-bottom: 10px;
 		#gregorianMonth {
 			font-size: 36px;
 			text-align:center;
@@ -866,6 +867,34 @@ select.formFld {
 					color: #825d5b;
 					font-size: 20px;
 				}
+			}
+		}
+	}
+}
+
+
+
+
+#calendarSwitcher {
+	position:fixed;
+	bottom: 75px;
+	width: 100%;
+	#calendarSwitcher-inner {
+		@include pie-clearfix;
+		width: 90px;
+		margin:0 auto;
+
+		a {
+			display: block;
+			float: left;
+			padding: 15px;
+			color: #F0E9DC;
+			opacity: 0.6;
+			&:hover {
+				opacity: 0.7;
+			}
+			&.active {
+				opacity: 1;
 			}
 		}
 	}

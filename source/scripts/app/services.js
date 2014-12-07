@@ -1,36 +1,25 @@
 angular.module('Malendar.services', [])
-	.factory('settingsProvider', function () {
-		return {
-			getDistrictId : function () {
-				if (districtId = window.localStorage.getItem('config_districtId')) {
-					return districtId;
-				} else {
-					return 'kochi';
-				}
-			},
-			getNewsSource : function () {
-				if (newsSource = window.localStorage.getItem('config_newsSource')) {
-					return newsSource;
-				} else {
-					return 'manorama';
-				}
-			},
-			getNewsEnabled : function () {
-				if (newsEnabled = window.localStorage.getItem('config_newsEnabled')) {
-					return newsEnabled;
-				} else {
-					return 'enabled';
-				}
-			},
-			setNewsSource : function (newsSource) {
-				window.localStorage.setItem('config_newsSource', newsSource);
-			},
-			setDistrictId : function (districtId) {
-				window.localStorage.setItem('config_districtId', districtId);
-			},
-			setNewsEnabled : function (newsEnabled) {
-				window.localStorage.setItem('config_newsEnabled', newsEnabled);
-			}
+	.service('settingsProvider', function () {
+		this.districtId = (window.localStorage.getItem('config_districtId'))?window.localStorage.getItem('config_districtId'):'kochi';
+		this.newsSource = (window.localStorage.getItem('config_newsSource'))?window.localStorage.getItem('config_newsSource'):'manorama';
+		this.newsEnabled = (window.localStorage.getItem('config_newsEnabled'))?window.localStorage.getItem('config_newsEnabled'):'enabled';
+		this.calendarType = (window.localStorage.getItem('config_calendarType'))?window.localStorage.getItem('config_calendarType'):'dateWidget';
+
+		this.setNewsSource = function (newsSource) {
+			window.localStorage.setItem('config_newsSource', newsSource);
+			this.newsSource = newsSource;
+		}
+		this.setDistrictId = function (districtId) {
+			window.localStorage.setItem('config_districtId', districtId);
+			this.districtId = districtId;
+		}
+		this.setNewsEnabled = function (newsEnabled) {
+			window.localStorage.setItem('config_newsEnabled', newsEnabled);
+			this.newsEnabled = newsEnabled;
+		}
+		this.setCalendarType = function (calendarType) {
+			window.localStorage.setItem('config_calendarType', calendarType);
+			this.calendarType = calendarType;
 		}
 	})
 	.service('monthService', function () {

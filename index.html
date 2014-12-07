@@ -81,7 +81,7 @@
 				</ul>
 			</div>
 		</header>
-		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" style="margin-top:{{marginTop}}; display:none;">
+		<div id="dateWidget" data-ng-controller="dateWidgetController" data-ng-class="{flipped:flipped}" style="margin-top:{{marginTop}};" data-ng-show="showDateWidget">
 			<a href="#" id="dateWidget-prev" data-ng-click="prevDay($event)">
 				<i class="fa fa-angle-left" data-ng-show="showPrev"></i>
 			</a>
@@ -137,7 +137,7 @@
 				<i class="fa fa-angle-right" data-ng-show="showNext"></i>
 			</a>
 		</div>
-		<div data-ng-controller="weatherController" id="weatherContainer" style="display:none;">
+		<div data-ng-controller="weatherController" id="weatherContainer" data-ng-show="showWeather">
 			<ul>
 				<li class="weatherBlock" data-ng-repeat="forecast in forecasts" title="{{forecast.text}}">
 					<div class="weatherBlock-left">
@@ -156,7 +156,7 @@
 			</ul>
 		</div>
 
-		<div id="calendarWidget" data-ng-controller="calendarController">
+		<div id="calendarWidget" data-ng-controller="calendarController" data-ng-show="showCalendar">
 			<div id="monthNameContainer" class="mallu">
 				<div id="gregorianMonth">
 					{{gregorianMonth}}
@@ -194,6 +194,14 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="calendarSwitcher" data-ng-controller="calendarSwitchController">
+			<div id="calendarSwitcher-inner">
+				<a href="#" data-ng-class="{active:calendarType == 'dateWidget'}" data-ng-click="setCalendarType('dateWidget')"><i class="fa fa-calendar-o"></i></a>
+				<a href="#" data-ng-class="{active:calendarType == 'calendar'}" data-ng-click="setCalendarType('calendar')"><i class="fa fa-calendar"></i></a>
+			</div>
+		</div>
+
 
 		<footer data-ng-class="(newsArray.length > 0)?'withnews':''" data-ng-controller="newsController">
 			<div class="news-container">

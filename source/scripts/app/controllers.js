@@ -24,6 +24,14 @@ angular.module('Malendar.controllers', [])
 			}
 		}
 
+		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
+			if (settingsProvider.calendarType == 'dateWidget') {
+				$scope.showDateWidget = true;
+			} else {
+				$scope.showDateWidget = false;
+			}
+		});
+
 		function renderDateWidget () {
 			dayString = $scope.activeMoment.format("D/M/YYYY");
 			dayDetails = Malendar.dates[dayString];
@@ -72,7 +80,7 @@ angular.module('Malendar.controllers', [])
 		}
 
 
-		weatherService.getWeatherFromYahoo(settingsProvider.getDistrictId())
+		weatherService.getWeatherFromYahoo(settingsProvider.districtId)
 			.then(function(forecastData) {
 				console.log(forecastData);
 			    $scope.condition = forecastData.condition;
@@ -171,7 +179,7 @@ angular.module('Malendar.controllers', [])
 
 	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', 'settingsProvider', function($scope, weatherService, districtProvider, settingsProvider) {
 		$scope.forecasts = [];
-		weatherService.getWeatherFromYahoo(settingsProvider.getDistrictId())
+		weatherService.getWeatherFromYahoo(settingsProvider.districtId)
 			.then(function(forecastData) {
 			    angular.forEach(forecastData.forecast, function(forecast, index) {
 			    	if (index > 0 && index < 4) {
@@ -181,14 +189,22 @@ angular.module('Malendar.controllers', [])
 			}, function () {
 				console.log('No weather');
 			});
+
+		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
+			if (settingsProvider.calendarType == 'dateWidget') {
+				$scope.showWeather = true;
+			} else {
+				$scope.showWeather = false;
+			}
+		});
 	}])
 
 	.controller('settingsController', ['$scope', '$window', '$rootScope', 'districtProvider', 'settingsProvider', function($scope, $window, $rootScope, districtProvider, settingsProvider) {
 		$scope.showSettings = false;
 		$scope.districts = districtProvider.getDistricts();
-		$scope.districtId = settingsProvider.getDistrictId();
-		$scope.newsSource = settingsProvider.getNewsSource();
-		$scope.newsEnabled = settingsProvider.getNewsEnabled();
+		$scope.districtId = settingsProvider.districtId;
+		$scope.newsSource = settingsProvider.newsSource;
+		$scope.newsEnabled = settingsProvider.newsEnabled;
 
 		$scope.saveSettings = function ($event) {
 			settingsProvider.setDistrictId($scope.districtId);
@@ -237,9 +253,9 @@ angular.module('Malendar.controllers', [])
 		}
 
 
-		if (settingsProvider.getNewsEnabled() == 'enabled') {
+		if (settingsProvider.newsEnabled == 'enabled') {
 			//Fetch news only if it is enabled
-			newsService.getNews(settingsProvider.getNewsSource())
+			newsService.getNews(settingsProvider.newsSource)
 				.then(function(newsData) {
 				    angular.forEach(newsData.news, function(news, index) {
 				    	$scope.newsArray.push(news);
@@ -257,10 +273,27 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('calendarController', ['$scope', 'monthService', function($scope, monthService) {
+	.controller('calendarController', ['$scope', 'monthService', 'settingsProvider', function($scope, monthService, settingsProvider) {
 		activeMoment = moment();
 		$scope.days = monthService.getMonth(activeMoment.year(), activeMoment.month() + 1);
 		malayalamMonths = monthService.getMalayalamMonthFromGregorianMonth(activeMoment.year(), activeMoment.month() + 1);
 		$scope.gregorianMonth = monthService.getGregorianMonthName(activeMoment.month()); 
 		$scope.malayalamMonths = malayalamMonths[0] + ' - ' + malayalamMonths[1];
+
+		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
+			if (settingsProvider.calendarType == 'calendar') {
+				$scope.showCalendar = true;
+			} else {
+				$scope.showCalendar = false;
+			}
+		});
+	}])
+
+
+	.controller('calendarSwitchController', ['$scope', 'settingsProvider', function ($scope, settingsProvider) {
+		$scope.calendarType = settingsProvider.calendarType;
+		$scope.setCalendarType = function (calendarType) {
+			$scope.calendarType = calendarType;
+			settingsProvider.setCalendarType(calendarType);
+		}
 	}]);
