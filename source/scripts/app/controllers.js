@@ -1,5 +1,5 @@
 angular.module('Malendar.controllers', [])
-	.controller('dateWidgetController', ['$scope', 'monthProvider', 'dayProvider', 'weatherService', 'settingsProvider', function($scope, monthProvider, dayProvider, weatherService, settingsProvider) {
+	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsProvider', function($scope, monthService, dayProvider, weatherService, settingsProvider) {
 		
 		$scope.activeMoment = moment();
 		renderDateWidget();
@@ -28,11 +28,11 @@ angular.module('Malendar.controllers', [])
 			dayString = $scope.activeMoment.format("D/M/YYYY");
 			dayDetails = Malendar.dates[dayString];
 			$scope.flipped = false;
-			$scope.gregorianMonth = monthProvider.getGregorianMonthName($scope.activeMoment.month());
+			$scope.gregorianMonth = monthService.getGregorianMonthName($scope.activeMoment.month());
 			$scope.gregorianDate = $scope.activeMoment.date();
 			$scope.gregorianWeekDay = dayProvider.getGregorianWeekDayName($scope.activeMoment.isoWeekday() - 1);
 			$scope.malayalamDate = (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay;
-			$scope.malayalamMonth = monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth);
+			$scope.malayalamMonth = monthService.getMalayalamMonthName(dayDetails.MalayalamMonth);
 			$scope.malayalamNakshatra = dayDetails.MNakshatra;
 			$scope.rahuKalam = dayDetails.Rahu;
 			$scope.sunrise = dayDetails.Sunrise;
@@ -257,90 +257,10 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('calendarController', ['$scope', 'monthProvider', function($scope, monthProvider) {
-		$scope.days = [];
-
-		today = moment();
-		currentMonth = today.month();
-		currentYear = today.year();
-		lastDayOfMonth = today.endOf('month').date();
-		firstMomentOfMonth = today.startOf('month');
-
-
-		if (firstMomentOfMonth.day() != 0) {
-			//Means we need to insert some padding days
-			for (i = 0; i < firstMomentOfMonth.day(); i++) {
-				$scope.days.push({});
-			}
-		}
-
-		additionalDays = 0;
-		if ((($scope.days.length + lastDayOfMonth ) / 7) > 5) {
-			//Means this month will have 5 or more weeks
-			additionalDays = ($scope.days.length + lastDayOfMonth ) % 7;
-			if (additionalDays) {
-				//If there are additional days, then we add them to the start of the calendar month
-				for (i=(additionalDays - 1), j=0; i >= 0; i--, j++) {
-					dayDetails = getDayDetails(lastDayOfMonth - i, currentMonth + 1, currentYear);
-					if (dayDetails.dayOfWeek == 0) {
-						//Sunday
-						dayDetails.holiday = true;
-					} else {
-						dayDetails.holiday = false;
-					}
-					$scope.days[j] = dayDetails;
-				}
-			}
-		}
-
-
-		saturdayCount = 0;
-		for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
-			dayDetails = getDayDetails(i, currentMonth + 1, currentYear);
-			if (dayDetails.dayOfWeek == 0) {
-				//Sunday
-				dayDetails.holiday = true;
-			} else if (dayDetails.dayOfWeek == 6) {
-				//Saturday
-				saturdayCount++;
-				if (saturdayCount == 2) {
-					//Second saturday
-					dayDetails.holiday = true;
-				}
-			} else {
-				dayDetails.holiday = false;
-			}
-
-			$scope.days.push(dayDetails);
-		}
-
-		function getDayDetails (day, month, year) {
-			dayDetails = Malendar.dates[day + '/' + month + '/' + year];
-			return {
-				'gregorianDate' : day,
-				'malayalamDate' : (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay,
-				'malayalamMonth' : monthProvider.getMalayalamMonthName(dayDetails.MalayalamMonth),
-				'malayalamNakshatra' : dayDetails.MNakshatra,
-				'dayOfWeek' : dayDetails.dayOfWeek
-			};
-		}
-
-		/*generationNext();
-		//console.log($scope.days);
-		//
-		function generationNext () {
-			start = moment('2014-1-1', 'YYYY-M-D');
-			newData = {};
-			newData[start.format('D/M/YYYY')] = Malendar.dates[start.format('D/M/YYYY')];
-			newData[start.format('D/M/YYYY')].day = start.day();
-			//end = start.endOf('year');
-			for (i = 0; i < 364; i++) {
-				start.add({'day' : 1});
-				newData[start.format('D/M/YYYY')] = Malendar.dates[start.format('D/M/YYYY')];
-				newData[start.format('D/M/YYYY')].dayOfWeek = start.day();
-			}
-
-			console.log(newData);
-			console.log(JSON.stringify(newData));
-		}*/
+	.controller('calendarController', ['$scope', 'monthService', function($scope, monthService) {
+		activeMoment = moment();
+		$scope.days = monthService.getMonth(activeMoment.year(), activeMoment.month() + 1);
+		malayalamMonths = monthService.getMalayalamMonthFromGregorianMonth(activeMoment.year(), activeMoment.month() + 1);
+		$scope.gregorianMonth = monthService.getGregorianMonthName(activeMoment.month()); 
+		$scope.malayalamMonths = malayalamMonths[0] + ' - ' + malayalamMonths[1];
 	}]);

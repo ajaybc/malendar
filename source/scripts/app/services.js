@@ -33,43 +33,116 @@ angular.module('Malendar.services', [])
 			}
 		}
 	})
-	.factory('monthProvider', function () {
-		return {
-			getGregorianMonthName : function (monthIndex) {
-				monthNames = [
-					'ജനുവരി', 
-					'ഫെബ്രുവരി', 
-					'മാർച്ച്‌', 
-					'ഏപ്രിൽ', 
-					'മെയ്‌', 
-					'ജൂണ്‍', 
-					'ജൂലൈ', 
-					'ഓഗസ്റ്റ്‌', 
-					'സെപ്റ്റംബർ', 
-					'ഒക്ടോബർ', 
-					'നവംബർ',
-					'ഡിസംബർ'
-				]
-				return monthNames[monthIndex];
-			},
+	.service('monthService', function () {
+		this.getGregorianMonthName = function (monthIndex) {
+			monthNames = [
+				'ജനുവരി', 
+				'ഫെബ്രുവരി', 
+				'മാർച്ച്‌', 
+				'ഏപ്രിൽ', 
+				'മെയ്‌', 
+				'ജൂണ്‍', 
+				'ജൂലൈ', 
+				'ഓഗസ്റ്റ്‌', 
+				'സെപ്റ്റംബർ', 
+				'ഒക്ടോബർ', 
+				'നവംബർ',
+				'ഡിസംബർ'
+			]
+			return monthNames[monthIndex];
+		}
 
-			getMalayalamMonthName : function (monthIndex) {
-				monthNames = [
-					'ചിങ്ങം', 
-					'കന്നി ',
-					'തുലാം', 
-					'വൃശ്ചികം', 
-					'ധനു', 
-					'മകരം', 
-					'കുംഭം', 
-					'മീനം', 
-					'മേടം', 
-					'ഇടവം', 
-					'മിഥുനം', 
-					'കര്‍ക്കടകം'
-				]
-				return monthNames[monthIndex - 1];
+		this.getMalayalamMonthName = function (monthIndex) {
+			monthNames = [
+				'ചിങ്ങം', 
+				'കന്നി ',
+				'തുലാം', 
+				'വൃശ്ചികം', 
+				'ധനു', 
+				'മകരം', 
+				'കുംഭം', 
+				'മീനം', 
+				'മേടം', 
+				'ഇടവം', 
+				'മിഥുനം', 
+				'കര്‍ക്കടകം'
+			]
+			return monthNames[monthIndex - 1];
+		}
+		this.getMonth = function(year, month) {
+			firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
+			lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
+			lastDayOfMonth = lastMomentOfMonth.date();
+
+			days = [];
+
+			if (firstMomentOfMonth.day() != 0) {
+				//Means we need to insert some padding days
+				for (i = 0; i < firstMomentOfMonth.day(); i++) {
+					days.push({});
+				}
 			}
+
+			additionalDays = 0;
+			if (((days.length + lastDayOfMonth ) / 7) > 5) {
+				//Means this month will have 5 or more weeks
+				additionalDays = (days.length + lastDayOfMonth ) % 7;
+				if (additionalDays) {
+					//If there are additional days, then we add them to the start of the calendar month
+					for (i=(additionalDays - 1), j=0; i >= 0; i--, j++) {
+						dayDetails = this.getDayDetails(lastDayOfMonth - i, month, year);
+						if (dayDetails.dayOfWeek == 0) {
+							//Sunday
+							dayDetails.holiday = true;
+						} else {
+							dayDetails.holiday = false;
+						}
+						days[j] = dayDetails;
+					}
+				}
+			}
+
+			saturdayCount = 0;
+			for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
+				dayDetails = this.getDayDetails(i, month, year);
+				if (dayDetails.dayOfWeek == 0) {
+					//Sunday
+					dayDetails.holiday = true;
+				} else if (dayDetails.dayOfWeek == 6) {
+					//Saturday
+					saturdayCount++;
+					if (saturdayCount == 2) {
+						//Second saturday
+						dayDetails.holiday = true;
+					}
+				} else {
+					dayDetails.holiday = false;
+				}
+
+				days.push(dayDetails);
+			}
+
+			return days;
+		}
+
+		this.getDayDetails = function (day, month, year) {
+			dayDetails = Malendar.dates[day + '/' + month + '/' + year];
+			return {
+				'gregorianDate' : day,
+				'malayalamDate' : (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay,
+				'malayalamMonth' : this.getMalayalamMonthName(dayDetails.MalayalamMonth),
+				'malayalamNakshatra' : dayDetails.MNakshatra,
+				'dayOfWeek' : dayDetails.dayOfWeek
+			};
+		}
+
+		this.getMalayalamMonthFromGregorianMonth = function(year, month) {
+			firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
+			lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
+			return [
+				this.getDayDetails(firstMomentOfMonth.date(), firstMomentOfMonth.month() + 1, firstMomentOfMonth.year()).malayalamMonth,
+				this.getDayDetails(lastMomentOfMonth.date(), lastMomentOfMonth.month() + 1, firstMomentOfMonth.year()).malayalamMonth
+			]
 		}
 	})
 
