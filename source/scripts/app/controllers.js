@@ -1,8 +1,6 @@
 angular.module('Malendar.controllers', [])
-	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsProvider', function($scope, monthService, dayProvider, weatherService, settingsProvider) {
-		
+	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsService', function($scope, monthService, dayProvider, weatherService, settingsService) {
 		$scope.activeMoment = moment();
-		renderDateWidget();
 
 		$scope.nextDay = function($event) {
 			if ($scope.showNext) {
@@ -24,9 +22,10 @@ angular.module('Malendar.controllers', [])
 			}
 		}
 
-		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
-			if (settingsProvider.calendarType == 'dateWidget') {
+		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
+			if (settingsService.calendarType == 'dateWidget') {
 				$scope.showDateWidget = true;
+				renderDateWidget();
 			} else {
 				$scope.showDateWidget = false;
 			}
@@ -80,7 +79,7 @@ angular.module('Malendar.controllers', [])
 		}
 
 
-		weatherService.getWeatherFromYahoo(settingsProvider.districtId)
+		weatherService.getWeatherFromYahoo(settingsService.districtId)
 			.then(function(forecastData) {
 				console.log(forecastData);
 			    $scope.condition = forecastData.condition;
@@ -177,9 +176,9 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', 'settingsProvider', function($scope, weatherService, districtProvider, settingsProvider) {
+	.controller('weatherController', ['$scope', 'weatherService', 'districtProvider', 'settingsService', function($scope, weatherService, districtProvider, settingsService) {
 		$scope.forecasts = [];
-		weatherService.getWeatherFromYahoo(settingsProvider.districtId)
+		weatherService.getWeatherFromYahoo(settingsService.districtId)
 			.then(function(forecastData) {
 			    angular.forEach(forecastData.forecast, function(forecast, index) {
 			    	if (index > 0 && index < 4) {
@@ -190,8 +189,8 @@ angular.module('Malendar.controllers', [])
 				console.log('No weather');
 			});
 
-		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
-			if (settingsProvider.calendarType == 'dateWidget') {
+		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
+			if (settingsService.calendarType == 'dateWidget') {
 				$scope.showWeather = true;
 			} else {
 				$scope.showWeather = false;
@@ -199,17 +198,17 @@ angular.module('Malendar.controllers', [])
 		});
 	}])
 
-	.controller('settingsController', ['$scope', '$window', '$rootScope', 'districtProvider', 'settingsProvider', function($scope, $window, $rootScope, districtProvider, settingsProvider) {
+	.controller('settingsController', ['$scope', '$window', '$rootScope', 'districtProvider', 'settingsService', function($scope, $window, $rootScope, districtProvider, settingsService) {
 		$scope.showSettings = false;
 		$scope.districts = districtProvider.getDistricts();
-		$scope.districtId = settingsProvider.districtId;
-		$scope.newsSource = settingsProvider.newsSource;
-		$scope.newsEnabled = settingsProvider.newsEnabled;
+		$scope.districtId = settingsService.districtId;
+		$scope.newsSource = settingsService.newsSource;
+		$scope.newsEnabled = settingsService.newsEnabled;
 
 		$scope.saveSettings = function ($event) {
-			settingsProvider.setDistrictId($scope.districtId);
-			settingsProvider.setNewsSource($scope.newsSource);
-			settingsProvider.setNewsEnabled($scope.newsEnabled);
+			settingsService.setDistrictId($scope.districtId);
+			settingsService.setNewsSource($scope.newsSource);
+			settingsService.setNewsEnabled($scope.newsEnabled);
 
 			$event.preventDefault();
 			$window.location.reload();
@@ -221,7 +220,7 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('newsController', ['$scope', '$interval', '$rootScope', '$filter', 'newsService', 'settingsProvider', function($scope, $interval, $rootScope, $filter, newsService, settingsProvider) {
+	.controller('newsController', ['$scope', '$interval', '$rootScope', '$filter', 'newsService', 'settingsService', function($scope, $interval, $rootScope, $filter, newsService, settingsService) {
 		$scope.newsArray = [];
 
 		$scope.hoverDescription = '';
@@ -253,9 +252,9 @@ angular.module('Malendar.controllers', [])
 		}
 
 
-		if (settingsProvider.newsEnabled == 'enabled') {
+		if (settingsService.newsEnabled == 'enabled') {
 			//Fetch news only if it is enabled
-			newsService.getNews(settingsProvider.newsSource)
+			newsService.getNews(settingsService.newsSource)
 				.then(function(newsData) {
 				    angular.forEach(newsData.news, function(news, index) {
 				    	$scope.newsArray.push(news);
@@ -273,27 +272,61 @@ angular.module('Malendar.controllers', [])
 	}])
 
 
-	.controller('calendarController', ['$scope', 'monthService', 'settingsProvider', function($scope, monthService, settingsProvider) {
-		activeMoment = moment();
-		$scope.days = monthService.getMonth(activeMoment.year(), activeMoment.month() + 1);
-		malayalamMonths = monthService.getMalayalamMonthFromGregorianMonth(activeMoment.year(), activeMoment.month() + 1);
-		$scope.gregorianMonth = monthService.getGregorianMonthName(activeMoment.month()); 
-		$scope.malayalamMonths = malayalamMonths[0] + ' - ' + malayalamMonths[1];
+	.controller('calendarController', ['$scope', 'monthService', 'settingsService', function($scope, monthService, settingsService) {
+		$scope.activeMoment = moment();
 
-		$scope.$watch(function () {return settingsProvider.calendarType}, function (newValue) {
-			if (settingsProvider.calendarType == 'calendar') {
+		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
+			if (settingsService.calendarType == 'calendar') {
 				$scope.showCalendar = true;
+				renderCalendar();
 			} else {
 				$scope.showCalendar = false;
 			}
 		});
+
+		$scope.nextMonth = function($event) {
+			$scope.activeMoment = $scope.activeMoment.add({'month' : 1});
+			renderCalendar();
+			if ($event) {
+				$event.preventDefault();
+			}
+		}
+
+		$scope.prevMonth = function($event) {
+			$scope.activeMoment = $scope.activeMoment.subtract({'month' : 1});
+			renderCalendar();
+			console.log($scope.activeMoment);
+			if ($event) {
+				$event.preventDefault();
+			}
+		}
+
+		function renderCalendar () {
+			$scope.days = monthService.getMonth($scope.activeMoment.year(), $scope.activeMoment.month() + 1);
+			malayalamMonths = monthService.getMalayalamMonthFromGregorianMonth($scope.activeMoment.year(), $scope.activeMoment.month() + 1);
+			$scope.gregorianMonth = monthService.getGregorianMonthName($scope.activeMoment.month()); 
+			$scope.malayalamMonths = malayalamMonths[0] + ' - ' + malayalamMonths[1];
+			if ($scope.activeMoment.month() == 11) {
+				//If December. Hide next button. Because we dont have the data right now
+				$scope.showNext = false;
+			} else {
+				$scope.showNext = true;
+			}
+
+			if ($scope.activeMoment.month() == 0) {
+				//If Jan. Hide prev button. Because we dont have the data right now
+				$scope.showPrev = false;
+			} else {
+				$scope.showPrev = true;
+			}
+		}
 	}])
 
 
-	.controller('calendarSwitchController', ['$scope', 'settingsProvider', function ($scope, settingsProvider) {
-		$scope.calendarType = settingsProvider.calendarType;
+	.controller('calendarSwitchController', ['$scope', 'settingsService', function ($scope, settingsService) {
+		$scope.calendarType = settingsService.calendarType;
 		$scope.setCalendarType = function (calendarType) {
 			$scope.calendarType = calendarType;
-			settingsProvider.setCalendarType(calendarType);
+			settingsService.setCalendarType(calendarType);
 		}
 	}]);

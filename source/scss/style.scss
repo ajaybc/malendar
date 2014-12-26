@@ -789,6 +789,30 @@ select.formFld {
 			box-shadow: 0 17px 50px 0 rgba(0,0,0,.19);
 		}
 		box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		position:relative;
+
+		#calendar-prev, #calendar-next {
+			position: absolute;
+			width: 100px;
+			color: #F0E9DC;
+			font-size: 50px;
+			text-align: center;
+			padding-top: 275px;
+			opacity: 0.1;
+			transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+			box-sizing: border-box;
+			height: 340px;
+			left: -100px;
+
+			&:hover {
+				opacity: 0.9;
+			}
+		}
+
+		#calendar-next {
+			left: 960px;
+			top: 0;
+		}
 	}
 
 	#calendarTitle-container {

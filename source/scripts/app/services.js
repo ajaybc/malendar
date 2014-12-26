@@ -1,5 +1,5 @@
 angular.module('Malendar.services', [])
-	.service('settingsProvider', function () {
+	.service('settingsService', function () {
 		this.districtId = (window.localStorage.getItem('config_districtId'))?window.localStorage.getItem('config_districtId'):'kochi';
 		this.newsSource = (window.localStorage.getItem('config_newsSource'))?window.localStorage.getItem('config_newsSource'):'manorama';
 		this.newsEnabled = (window.localStorage.getItem('config_newsEnabled'))?window.localStorage.getItem('config_newsEnabled'):'enabled';

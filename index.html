@@ -33,20 +33,20 @@
 								</div>
 								<ul data-ng-show="bookmarks.iconList.length > 0" id="bookmarks-iconlist">
 									<li data-ng-repeat="bookmark in bookmarks.iconList">
-										<a href="{{bookmark.url}}" title="{{bookmark.url}}" data-ng-if="bookmark.url">
+										<a href="{{::bookmark.url}}" title="{{bookmark.url}}" data-ng-if="bookmark.url">
 											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
 										</a>
 									</li>
 								</ul>
 								<ul data-ng-show="bookmarks.list.length > 0">
 									<li data-ng-repeat="bookmark in bookmarks.list">
-										<a href="{{bookmark.url}}" title="{{bookmark.title}}" data-ng-if="bookmark.url">
+										<a href="{{::bookmark.url}}" title="{{::bookmark.title}}" data-ng-if="bookmark.url">
 											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
-											<div>{{bookmark.title}}</div>
+											<div>{{::bookmark.title}}</div>
 										</a>
 										<a href="#" title="{{bookmark.title}}" data-ng-if="!bookmark.url" data-ng-click="openBookmarkFolder(bookmark.id, $event)">
 											<i class="fa fa-folder"></i>
-											<div>{{bookmark.title}} &gt;</div>
+											<div>{{::bookmark.title}} &gt;</div>
 										</a>
 									</li>
 								</ul>
@@ -71,7 +71,7 @@
 									<li data-ng-repeat="application in applications.list">
 										<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
 											<img src="{{application.icon}}" width="60" />
-											<div>{{application.name}}</div>
+											<div>{{::application.name}}</div>
 										</a>
 									</li>
 								</ul>
@@ -102,7 +102,7 @@
 						<div id="dateWidget-mdate-right" title="{{condition.text}}">
 							<i class="{{condition.code | weatherIcon}}"></i>
 							<!-- <i class="wi wi-thunderstorm"></i> -->
-							<div>{{condition.temp}}&deg;</div>
+							<div>{{::condition.temp}}&deg;</div>
 						</div>
 					</div>
 				</div>
@@ -145,11 +145,11 @@
 					</div>
 					<div class="weatherBlock-right">
 						<div class="weatherBlock-right-day">
-							{{forecast.day}}
+							{{::forecast.day}}
 						</div>
 						<div class="weatherBlock-right-temp">
-							<div class="weatherBlock-right-max">{{forecast.high}}&deg;</div>
-							<div class="weatherBlock-right-min">{{forecast.low}}&deg;</div>
+							<div class="weatherBlock-right-max">{{::forecast.high}}&deg;</div>
+							<div class="weatherBlock-right-min">{{::forecast.low}}&deg;</div>
 						</div>
 					</div>
 				</li>
@@ -166,6 +166,9 @@
 				</div>
 			</div>
 			<div id="calendarContainer">
+				<a href="#" id="calendar-prev" data-ng-click="prevMonth($event)" data-ng-show="showPrev">
+					<i class="fa fa-angle-left"></i>
+				</a>
 				<div id="calendarTitle-container">
 					<ul class="mallu">
 						<li>ഞായർ</li>
@@ -180,18 +183,21 @@
 				<div id="calendarDays-container">
 					<ul>
 						<li data-ng-repeat="day in days" class="calendarDays-block" data-ng-class="{holiday:day.holiday, borderRight:(($index + 1)%7 != 0)}">
-							<div class="calendarDays-day">{{day.gregorianDate}}</div>
+							<div class="calendarDays-day">{{::day.gregorianDate}}</div>
 							<div class="calendarDays-bottom">
 								<div class="calendarDays-bottom-left">
-									{{day.malayalamDate}}
+									{{::day.malayalamDate}}
 								</div>
 								<div class="calendarDays-bottom-right mallu">
-									<div>{{day.malayalamNakshatra}}</div>
+									<div>{{::day.malayalamNakshatra}}</div>
 								</div>
 							</div>
 						</li>
 					</ul>
 				</div>
+				<a href="#" id="calendar-next" data-ng-click="nextMonth($event)" data-ng-show="showNext">
+					<i class="fa fa-angle-right"></i>
+				</a>
 			</div>
 		</div>
 
