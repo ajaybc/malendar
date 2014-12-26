@@ -62,6 +62,7 @@ angular.module('Malendar.services', [])
 			firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
 			lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
 			lastDayOfMonth = lastMomentOfMonth.date();
+			today = moment();
 
 			days = [];
 
@@ -88,6 +89,9 @@ angular.module('Malendar.services', [])
 			saturdayCount = 0;
 			for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
 				dayDetails = this.getDayDetails(i, month, year);
+				if (i == today.date() && month == (today.month() + 1)) {
+					dayDetails.today = true;
+				}
 				days.push(dayDetails);
 			}
 

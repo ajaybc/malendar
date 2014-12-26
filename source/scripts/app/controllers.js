@@ -1,9 +1,11 @@
 angular.module('Malendar.controllers', [])
 	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsService', function($scope, monthService, dayProvider, weatherService, settingsService) {
-		$scope.activeMoment = moment("2015-12-20");
+		$scope.activeMoment = moment("2015-12-25");
 
 		$scope.nextDay = function($event) {
-			$scope.activeMoment = $scope.activeMoment.add({'day' : 1});
+			if ($scope.showNext) {
+				$scope.activeMoment = $scope.activeMoment.add({'day' : 1});
+			}
 			renderDateWidget();
 			if ($event) {
 				$event.preventDefault();
@@ -11,7 +13,9 @@ angular.module('Malendar.controllers', [])
 		}
 
 		$scope.prevDay = function($event) {
-			$scope.activeMoment = $scope.activeMoment.subtract({'day' : 1});
+			if ($scope.showPrev) {
+				$scope.activeMoment = $scope.activeMoment.subtract({'day' : 1});
+			}
 			renderDateWidget();
 			if ($event) {
 				$event.preventDefault();
@@ -40,7 +44,8 @@ angular.module('Malendar.controllers', [])
 			$scope.rahuKalam = dayDetails.Rahu;
 			$scope.sunrise = dayDetails.Sunrise;
 			$scope.sunset = dayDetails.Sunset;
-			$scope.specialities = dayDetails.Speciality;
+			$scope.special = dayDetails.special;
+			$scope.holiday = dayDetails.holiday;
 
 			if ($scope.activeMoment.month() == 11 && $scope.activeMoment.date() == 31) {
 				//If 31st December. Hide next button. Because we dont have the data right now
