@@ -80,12 +80,6 @@ angular.module('Malendar.services', [])
 					//If there are additional days, then we add them to the start of the calendar month
 					for (i=(additionalDays - 1), j=0; i >= 0; i--, j++) {
 						dayDetails = this.getDayDetails(lastDayOfMonth - i, month, year);
-						if (dayDetails.dayOfWeek == 0) {
-							//Sunday
-							dayDetails.holiday = true;
-						} else {
-							dayDetails.holiday = false;
-						}
 						days[j] = dayDetails;
 					}
 				}
@@ -94,20 +88,6 @@ angular.module('Malendar.services', [])
 			saturdayCount = 0;
 			for (i = 1; i <= (lastDayOfMonth - additionalDays); i++) {
 				dayDetails = this.getDayDetails(i, month, year);
-				if (dayDetails.dayOfWeek == 0) {
-					//Sunday
-					dayDetails.holiday = true;
-				} else if (dayDetails.dayOfWeek == 6) {
-					//Saturday
-					saturdayCount++;
-					if (saturdayCount == 2) {
-						//Second saturday
-						dayDetails.holiday = true;
-					}
-				} else {
-					dayDetails.holiday = false;
-				}
-
 				days.push(dayDetails);
 			}
 
@@ -121,7 +101,9 @@ angular.module('Malendar.services', [])
 				'malayalamDate' : (dayDetails.MDay < 10)?('0' + dayDetails.MDay):dayDetails.MDay,
 				'malayalamMonth' : this.getMalayalamMonthName(dayDetails.MalayalamMonth),
 				'malayalamNakshatra' : dayDetails.MNakshatra,
-				'dayOfWeek' : dayDetails.dayOfWeek
+				'dayOfWeek' : dayDetails.dayOfWeek,
+				'holiday' : dayDetails.holiday,
+				'special' : dayDetails.special
 			};
 		}
 

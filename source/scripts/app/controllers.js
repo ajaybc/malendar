@@ -1,11 +1,9 @@
 angular.module('Malendar.controllers', [])
 	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsService', function($scope, monthService, dayProvider, weatherService, settingsService) {
-		$scope.activeMoment = moment();
+		$scope.activeMoment = moment("2015-12-20");
 
 		$scope.nextDay = function($event) {
-			if ($scope.showNext) {
-				$scope.activeMoment = $scope.activeMoment.add({'day' : 1});
-			}
+			$scope.activeMoment = $scope.activeMoment.add({'day' : 1});
 			renderDateWidget();
 			if ($event) {
 				$event.preventDefault();
@@ -13,9 +11,7 @@ angular.module('Malendar.controllers', [])
 		}
 
 		$scope.prevDay = function($event) {
-			if ($scope.showPrev) {
-				$scope.activeMoment = $scope.activeMoment.subtract({'day' : 1});
-			}
+			$scope.activeMoment = $scope.activeMoment.subtract({'day' : 1});
 			renderDateWidget();
 			if ($event) {
 				$event.preventDefault();
@@ -273,7 +269,7 @@ angular.module('Malendar.controllers', [])
 
 
 	.controller('calendarController', ['$scope', 'monthService', 'settingsService', function($scope, monthService, settingsService) {
-		$scope.activeMoment = moment();
+		$scope.activeMoment = moment("2015-12-20");
 
 		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
 			if (settingsService.calendarType == 'calendar') {
@@ -295,7 +291,6 @@ angular.module('Malendar.controllers', [])
 		$scope.prevMonth = function($event) {
 			$scope.activeMoment = $scope.activeMoment.subtract({'month' : 1});
 			renderCalendar();
-			console.log($scope.activeMoment);
 			if ($event) {
 				$event.preventDefault();
 			}
