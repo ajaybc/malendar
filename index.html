@@ -184,7 +184,7 @@
 				<div id="calendarDays-container">
 					<ul>
 						<li data-ng-repeat="day in days" class="calendarDays-block" data-ng-class="{holiday:day.holiday, borderRight:(($index + 1)%7 != 0)}">
-							<div class="calendarDays-todayDot" data-ng-show="day.today"></div>
+							<div class="calendarDays-todayDot" data-ng-show="::day.today"></div>
 							<div class="calendarDays-day">{{::day.gregorianDate}}</div>
 							<div id="calendarDays-special" class="mallu" data-ng-show="day.special">{{::day.special}}</div>
 							<div class="calendarDays-bottom">
@@ -213,7 +213,7 @@
 
 
 		<footer data-ng-class="(newsArray.length > 0)?'withnews':''" data-ng-controller="newsController">
-			<div class="news-container">
+			<div class="news-container" data-scroll-detect data-scroll-handler="ticker.next()">
 				<div class="news-left mallu" data-ng-show="newsArray.length > 0">
 					വാർത്തകൾ 
 				</div>

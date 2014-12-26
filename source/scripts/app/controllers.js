@@ -1,6 +1,6 @@
 angular.module('Malendar.controllers', [])
 	.controller('dateWidgetController', ['$scope', 'monthService', 'dayProvider', 'weatherService', 'settingsService', function($scope, monthService, dayProvider, weatherService, settingsService) {
-		$scope.activeMoment = moment("2015-12-25");
+		$scope.activeMoment = moment();
 
 		$scope.nextDay = function($event) {
 			if ($scope.showNext) {
@@ -82,11 +82,8 @@ angular.module('Malendar.controllers', [])
 
 		weatherService.getWeatherFromYahoo(settingsService.districtId)
 			.then(function(forecastData) {
-				console.log(forecastData);
 			    $scope.condition = forecastData.condition;
-			    console.log($scope.condition);
 			}, function () {
-				console.log('No weather');
 			});
 
 		$scope.flip = function ($event) {
@@ -187,7 +184,6 @@ angular.module('Malendar.controllers', [])
 			    	}
 				});
 			}, function () {
-				console.log('No weather');
 			});
 
 		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
@@ -262,7 +258,6 @@ angular.module('Malendar.controllers', [])
 					});
 					$scope.ticker.start();
 				}, function () {
-					console.log('No news');
 				});
 		}
 
@@ -274,7 +269,7 @@ angular.module('Malendar.controllers', [])
 
 
 	.controller('calendarController', ['$scope', 'monthService', 'settingsService', function($scope, monthService, settingsService) {
-		$scope.activeMoment = moment("2015-12-20");
+		$scope.activeMoment = moment();
 
 		$scope.$watch(function () {return settingsService.calendarType}, function (newValue) {
 			if (settingsService.calendarType == 'calendar') {
