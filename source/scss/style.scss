@@ -782,13 +782,20 @@ select.formFld {
  * Calendar
  */
 #calendarWidget {
-	margin: 50px auto 0 auto;
+	margin: 10px auto 0 auto;
 	width: 960px;
 	cursor: default;
+
+	@media (max-height: 850px) {
+		margin-top: 0;
+	}
 
 	#monthNameContainer {
 		color: #f0e9dc;
 		padding-bottom: 10px;
+		@media (max-height: 750px) {
+			padding-bottom: 0;
+		}
 		#gregorianMonth {
 			font-size: 36px;
 			text-align:center;
@@ -797,6 +804,10 @@ select.formFld {
 		#malayalamMonth{
 			font-size: 18px;
 			text-align:center;
+
+			@media (max-height: 750px) {
+				display: none;
+			}
 		}
 	}
 
@@ -823,6 +834,15 @@ select.formFld {
 
 			&:hover {
 				opacity: 0.9;
+			}
+
+			@media (max-width: 1080px) {
+				width: 40px;
+				left: -40px;
+			}
+
+			@media (max-width: 1020px) {
+				display: none;
 			}
 		}
 
@@ -868,6 +888,21 @@ select.formFld {
 			color: #6f5f5c;
 			border-bottom:1px solid #CCC;
 
+			@media (max-height: 800px) and (min-height: 730px) {
+				padding:0;
+				height: 108px;
+				.calendarDays-day {
+					/* font-size: 50px; */
+				}
+			}
+
+			@media (max-height: 730px) {
+				height: 98px;
+				.calendarDays-day {
+					font-size: 50px !important;
+				}
+			}
+
 
 			.dummyDay {
 				//Padding Days
@@ -893,6 +928,7 @@ select.formFld {
 				background: -webkit-linear-gradient(top, #4387fd, #4683ea);
 				position: absolute;
 				right: 5px;
+				top: 5px;
 			}
 
 			#calendarDays-special {
@@ -942,6 +978,9 @@ select.formFld {
 #calendarSwitcher {
 	position:fixed;
 	bottom: 75px;
+	@media (max-height: 850px) {
+		bottom:45px;
+	}
 	width: 100%;
 	#calendarSwitcher-inner {
 		@include pie-clearfix;
