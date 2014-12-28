@@ -790,6 +790,10 @@ select.formFld {
 		margin-top: 0;
 	}
 
+	@media (max-height: 680px) {
+		width: 780px;
+	}
+
 	#monthNameContainer {
 		color: #f0e9dc;
 		padding-bottom: 10px;
@@ -799,6 +803,10 @@ select.formFld {
 		#gregorianMonth {
 			font-size: 36px;
 			text-align:center;
+			@media (max-height: 680px) {
+				font-size: 24px;
+				padding-bottom:5px;
+			}
 		}
 
 		#malayalamMonth{
@@ -821,34 +829,42 @@ select.formFld {
 
 		#calendar-prev, #calendar-next {
 			position: absolute;
-			width: 100px;
 			color: #F0E9DC;
 			font-size: 50px;
-			text-align: center;
-			padding-top: 275px;
 			opacity: 0.1;
 			transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 			box-sizing: border-box;
-			height: 340px;
-			left: -100px;
+			height: 100%;
+
+			width: 20px;
+			left: -30px;
 
 			&:hover {
 				opacity: 0.9;
 			}
 
-			@media (max-width: 1080px) {
-				width: 40px;
-				left: -40px;
+			i {
+				position: absolute;
+				top: 45%;
+				right: 0;
 			}
 
-			@media (max-width: 1020px) {
+			/* @media (max-width: 860px) {
 				display: none;
+			} */
+
+			@media (max-height: 680px) {
+				/* padding-top: 290px; */
 			}
 		}
 
 		#calendar-next {
-			left: 960px;
+			left: 970px;
 			top: 0;
+			text-align: left;
+			@media (max-height: 680px) {
+				left: 790px;
+			}
 		}
 	}
 
@@ -904,6 +920,14 @@ select.formFld {
 			}
 
 
+			@media (max-height: 680px) {
+				height: 78px;
+				.calendarDays-day {
+					font-size: 36px !important;
+				}
+			}
+
+
 			.dummyDay {
 				//Padding Days
 				
@@ -914,7 +938,7 @@ select.formFld {
 			}
 
 			.calendarDays-day {
-				font-size: 70px;
+				font-size: 60px;
 				font-weight: 700;
 				padding-top: 5px;
 				padding-bottom: 0;
@@ -933,7 +957,7 @@ select.formFld {
 
 			#calendarDays-special {
 				position:absolute;
-				top: 40%;
+				top: 35%;
 				width: 100%;
 				background: #f0e9dc;
 				padding: 5px 0 1px 0;
@@ -958,6 +982,9 @@ select.formFld {
 					font-size: 20px;
 					color: #f0b270;
 					padding: 5px;
+					@media (max-height: 680px) {
+						font-size: 16px;
+					}
 				}
 
 				.calendarDays-bottom-right {
@@ -966,7 +993,12 @@ select.formFld {
 					padding-top: 10px;
 					color: #825d5b;
 					font-size: 20px;
+					@media (max-height: 680px) {
+						font-size: 16px;
+						padding-top: 6px;
+					}
 				}
+
 			}
 		}
 	}
