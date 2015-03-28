@@ -12,9 +12,13 @@
 		<header data-ng-controller="topBarController">
 			<div id="topbar-right">
 				<ul>
+					<li>
+						<a class="toplinks" data-ng-click="openCalendar()">
+							Google Calendar (<em class="blink">New</em>)
+						</a>
+					</li>
 					<li class="has-dropdown">
 						<a class="toplinks" href="#">
-							<!-- <img src="build/images/bookmarks.svg" width="16" /> -->
 							<i class="fa fa-star"></i>
 							<span>Bookmarks</span>
 						</a>
@@ -34,14 +38,14 @@
 								<ul data-ng-show="bookmarks.iconList.length > 0" id="bookmarks-iconlist">
 									<li data-ng-repeat="bookmark in bookmarks.iconList">
 										<a href="{{::bookmark.url}}" title="{{bookmark.url}}" data-ng-if="bookmark.url">
-											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
+											<img data-ng-src="chrome://favicon/{{bookmark.url}}" width="16" />
 										</a>
 									</li>
 								</ul>
 								<ul data-ng-show="bookmarks.list.length > 0">
 									<li data-ng-repeat="bookmark in bookmarks.list">
 										<a href="{{::bookmark.url}}" title="{{::bookmark.title}}" data-ng-if="bookmark.url">
-											<img src="chrome://favicon/{{bookmark.url}}" width="16" />
+											<img data-ng-src="chrome://favicon/{{bookmark.url}}" width="16" />
 											<div>{{::bookmark.title}}</div>
 										</a>
 										<a href="#" title="{{bookmark.title}}" data-ng-if="!bookmark.url" data-ng-click="openBookmarkFolder(bookmark.id, $event)">
@@ -70,7 +74,7 @@
 								<ul>
 									<li data-ng-repeat="application in applications.list">
 										<a href="#" data-ng-click="openApplication(application.id, $event)" title="{{application.name}}">
-											<img src="{{application.icon}}" width="60" />
+											<img data-ng-src="{{application.icon}}" width="60" />
 											<div>{{::application.name}}</div>
 										</a>
 									</li>
@@ -155,6 +159,10 @@
 					</div>
 				</li>
 			</ul>
+		</div>
+
+		<div id="eventTickerContainer">
+			Test Event
 		</div>
 
 		<div id="calendarWidget" data-ng-controller="calendarController" data-ng-show="showCalendar">

@@ -72,6 +72,10 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+a {
+	cursor:pointer;
+}
+
 header {
 	@include pie-clearfix;
 	width: 100%;
@@ -97,6 +101,10 @@ header {
 			span {
 				display: block;
 				float:left;
+			}
+
+			em {
+				color:#E38F71;
 			}
 			&:hover {
 				text-decoration: underline;
@@ -276,6 +284,22 @@ header {
 			}
 		}
 	}
+}
+
+
+.blink {
+  animation: blink 1s steps(5, start) infinite;
+  -webkit-animation: blink 1s steps(5, start) infinite;
+}
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink {
+  to {
+    visibility: hidden;
+  }
 }
 
 footer {
@@ -636,6 +660,7 @@ footer {
 	@include pie-clearfix;
 	text-align: center;
 	padding-top: 40px;
+	padding-bottom: 15px;
 	color: #F0E9DC;
 	ul {
 		display: inline-block;
@@ -1032,5 +1057,24 @@ select.formFld {
 				opacity: 1;
 			}
 		}
+	}
+}
+
+
+#eventTickerContainer {
+	padding: 15px 10px;
+	width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	background: #444444;
+	border-radius: 5px;
+	color: #F0E9DC;
+	opacity: 0.7;
+	transition:0.6s opacity !important;
+	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+	&:hover {
+		opacity: 1;
 	}
 }
