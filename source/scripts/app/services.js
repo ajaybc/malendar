@@ -4,6 +4,7 @@ angular.module('Malendar.services', [])
         this.newsSource = (window.localStorage.getItem('config_newsSource')) ? window.localStorage.getItem('config_newsSource') : 'manorama';
         this.newsEnabled = (window.localStorage.getItem('config_newsEnabled')) ? window.localStorage.getItem('config_newsEnabled') : 'enabled';
         this.calendarType = (window.localStorage.getItem('config_calendarType')) ? window.localStorage.getItem('config_calendarType') : 'dateWidget';
+        this.permissionStatus = (window.localStorage.getItem('config_permissionStatus')) ? window.localStorage.getItem('config_permissionStatus') : 'not_permitted';
 
         this.setNewsSource = function(newsSource) {
             window.localStorage.setItem('config_newsSource', newsSource);
@@ -21,10 +22,15 @@ angular.module('Malendar.services', [])
             window.localStorage.setItem('config_calendarType', calendarType);
             this.calendarType = calendarType;
         }
+        this.setPermissionStatus = function(permissionStatus) {
+            window.localStorage.setItem('config_permissionStatus', permissionStatus);
+            this.permissionStatus = permissionStatus;
+        } 
     })
+
     .service('monthService', function() {
         this.getGregorianMonthName = function(monthIndex) {
-            monthNames = [
+            var monthNames = [
                 'ജനുവരി',
                 'ഫെബ്രുവരി',
                 'മാർച്ച്‌',
@@ -42,7 +48,7 @@ angular.module('Malendar.services', [])
         }
 
         this.getMalayalamMonthName = function(monthIndex) {
-            monthNames = [
+            var monthNames = [
                 'ചിങ്ങം',
                 'കന്നി ',
                 'തുലാം',
@@ -59,12 +65,12 @@ angular.module('Malendar.services', [])
             return monthNames[monthIndex - 1];
         }
         this.getMonth = function(year, month) {
-            firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
-            lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
+            var firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
+            var lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
             lastDayOfMonth = lastMomentOfMonth.date();
-            today = moment();
+            var today = moment();
 
-            days = [];
+            var days = [];
 
             if (firstMomentOfMonth.day() != 0) {
                 //Means we need to insert some padding days
@@ -73,7 +79,7 @@ angular.module('Malendar.services', [])
                 }
             }
 
-            additionalDays = 0;
+            var additionalDays = 0;
             if (((days.length + lastDayOfMonth) / 7) > 5) {
                 //Means this month will have 5 or more weeks
                 additionalDays = (days.length + lastDayOfMonth) % 7;
@@ -99,7 +105,7 @@ angular.module('Malendar.services', [])
         }
 
         this.getDayDetails = function(day, month, year) {
-            dayDetails = Malendar.dates[day + '/' + month + '/' + year];
+            var dayDetails = Malendar.dates[day + '/' + month + '/' + year];
             return {
                 'gregorianDate': day,
                 'malayalamDate': (dayDetails.MDay < 10) ? ('0' + dayDetails.MDay) : dayDetails.MDay,
@@ -112,8 +118,8 @@ angular.module('Malendar.services', [])
         }
 
         this.getMalayalamMonthFromGregorianMonth = function(year, month) {
-            firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
-            lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
+            var firstMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D');
+            var lastMomentOfMonth = moment(year + '-' + month + '-' + '1', 'YYYY-M-D').endOf('month');
             return [
                 this.getDayDetails(firstMomentOfMonth.date(), firstMomentOfMonth.month() + 1, firstMomentOfMonth.year()).malayalamMonth,
                 this.getDayDetails(lastMomentOfMonth.date(), lastMomentOfMonth.month() + 1, firstMomentOfMonth.year()).malayalamMonth
@@ -204,8 +210,8 @@ angular.module('Malendar.services', [])
         function($http, $q, districtService) {
             this.getWeatherFromYahoo = function(districtName) {
                 return $q(function(resolve, reject) {
-                    now = moment();
-                    noCache = false;
+                    var now = moment();
+                    var noCache = false;
                     cachedWeatherJson = window.localStorage.getItem('weather_' + districtName);
                     if (cachedWeatherJson) {
                         cachedWeather = JSON.parse(cachedWeatherJson);
@@ -260,8 +266,8 @@ angular.module('Malendar.services', [])
         function($http, $q) {
             this.getNews = function(source) {
                 return $q(function(resolve, reject) {
-                    now = moment();
-                    noCache = false;
+                    var now = moment();
+                    var noCache = false;
                     cachedNewsJson = window.localStorage.getItem('news_' + source);
                     if (cachedNewsJson) {
                         cachedNews = JSON.parse(cachedNewsJson);
@@ -304,4 +310,60 @@ angular.module('Malendar.services', [])
                 });
             }
         }
-    ]);
+    ])
+
+
+    .service('activeMomentService', [function () {
+        this.activeMoment = moment();
+    }])
+
+    .service('calendarService', [function () {
+        this.getEventsForDay = function (m) {
+            //Get all events for a day. Accepts a moment
+            var month = m.month() + 1;
+            var day = m.date();
+            var calendarJson = window.localStorage.getItem('calendar_' + month);
+            if (calendarJson) {
+                var calendarData = JSON.parse(calendarJson);
+                if (calendarData[day]) {
+                    for (var i=0; i < calendarData[day].length; i++) {
+                        if (calendarData[day][i].start) {
+                            if (calendarData[day][i].start.dateTime) {
+                                calendarData[day][i].startMoment = moment(calendarData[day][i].start.dateTime);
+                            } else if (calendarData[day][i].start.date) {
+                                calendarData[day][i].startMoment = moment(calendarData[day][i].start.date);
+                            }
+                        }
+
+                        if (calendarData[day][i].end) {
+                            if (calendarData[day][i].end.dateTime) {
+                                calendarData[day][i].endMoment = moment(calendarData[day][i].end.dateTime);
+                            } else if (calendarData[day][i].end.date) {
+                                calendarData[day][i].endMoment = moment(calendarData[day][i].end.date);
+                            }
+                        }
+                    }
+                    return calendarData[day];
+                } else {
+                    return [];
+                }
+
+            } else {
+                return [];
+            }
+        }
+
+        this.getUpcomingEventsForTheDay = function (m) {
+            //Get all upcoming events for a day. Returns only those events with same date but > time
+            var events = this.getEventsForDay(m);
+            var filteredEvents = [];
+            for (var i=0; i < events.length; i++) {
+                if (m.isBefore(events[i].endMoment)) {
+                    //If current time < end of the event, push to array
+                    filteredEvents.push(events[i]);
+                }
+            }
+
+            return filteredEvents;
+        }
+    }]);

@@ -12,7 +12,7 @@
 		<header data-ng-controller="topBarController">
 			<div id="topbar-right">
 				<ul>
-					<li>
+					<li data-ng-if="permissionStatus != 'permitted'">
 						<a class="toplinks" data-ng-click="openCalendar()">
 							Google Calendar (<em class="blink">New</em>)
 						</a>
@@ -161,8 +161,17 @@
 			</ul>
 		</div>
 
-		<div id="eventTickerContainer">
-			Test Event
+		<div id="eventTickerContainer" data-ng-controller="eventTickerController" data-ng-show="(calendarType == 'dateWidget') && (eventsToday.length > 0)">
+			<a class="prev" data-ng-click="index = index - 1" data-ng-show="index > 0"><i class="fa fa-arrow-left"></i></a>
+			<ul>
+				<li data-ng-repeat="event in eventsToday" data-ng-show="$index == index">
+					<!--Timed event -->
+					<a data-ng-href="{{event.htmlLink}}" data-ng-if="event.start.dateTime" title="{{event.startMoment.format('h:mma') + ' - ' + event.endMoment.format('h:mma') + '&nbsp;&nbsp;' + event.summary}}">{{event.startMoment.format('h:mma') + ' - ' + event.endMoment.format('h:mma') + '&nbsp;&nbsp;' + event.summary}}</a>
+					<!--Full day event -->
+					<a data-ng-if="!event.start.dateTime" title="{{event.summary}}">{{event.summary}}</a>
+				</li>
+			</ul>
+			<a class="next" data-ng-click="index = index + 1" data-ng-show="index < (eventsToday.length - 1)"><i class="fa fa-arrow-right"></i></a>
 		</div>
 
 		<div id="calendarWidget" data-ng-controller="calendarController" data-ng-show="showCalendar">

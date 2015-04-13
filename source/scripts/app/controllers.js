@@ -1,15 +1,12 @@
 angular.module('Malendar.controllers', [])
-    .controller('dateWidgetController', ['$scope', 'monthService', 'dayOfWeekService', 'weatherService', 'settingsService',
-        function($scope, monthService, dayOfWeekService, weatherService, settingsService) {
-            $scope.activeMoment = moment();
-
+    .controller('dateWidgetController', ['$scope', 'monthService', 'dayOfWeekService', 'weatherService', 'settingsService', 'activeMomentService', 'calendarService',
+        function($scope, monthService, dayOfWeekService, weatherService, settingsService, activeMomentService, calendarService) {
             $scope.nextDay = function($event) {
                 if ($scope.showNext) {
-                    $scope.activeMoment = $scope.activeMoment.add({
+                    activeMomentService.activeMoment = activeMomentService.activeMoment.add({
                         'day': 1
                     });
                 }
-                renderDateWidget();
                 if ($event) {
                     $event.preventDefault();
                 }
@@ -17,15 +14,21 @@ angular.module('Malendar.controllers', [])
 
             $scope.prevDay = function($event) {
                 if ($scope.showPrev) {
-                    $scope.activeMoment = $scope.activeMoment.subtract({
+                    activeMomentService.activeMoment = activeMomentService.activeMoment.subtract({
                         'day': 1
                     });
                 }
-                renderDateWidget();
                 if ($event) {
                     $event.preventDefault();
                 }
             }
+
+            $scope.$watch(function() {
+                return activeMomentService.activeMoment
+            }, function(newValue, oldValue) {
+                if (newValue === oldValue) return;
+                renderDateWidget();
+            }, true);
 
             $scope.$watch(function() {
                 return settingsService.calendarType
@@ -39,12 +42,12 @@ angular.module('Malendar.controllers', [])
             });
 
             function renderDateWidget() {
-                dayString = $scope.activeMoment.format("D/M/YYYY");
+                dayString = activeMomentService.activeMoment.format("D/M/YYYY");
                 dayDetails = Malendar.dates[dayString];
                 $scope.flipped = false;
-                $scope.gregorianMonth = monthService.getGregorianMonthName($scope.activeMoment.month());
-                $scope.gregorianDate = $scope.activeMoment.date();
-                $scope.gregorianWeekDay = dayOfWeekService.getGregorianWeekDayName($scope.activeMoment.isoWeekday() - 1);
+                $scope.gregorianMonth = monthService.getGregorianMonthName(activeMomentService.activeMoment.month());
+                $scope.gregorianDate = activeMomentService.activeMoment.date();
+                $scope.gregorianWeekDay = dayOfWeekService.getGregorianWeekDayName(activeMomentService.activeMoment.isoWeekday() - 1);
                 $scope.malayalamDate = (dayDetails.MDay < 10) ? ('0' + dayDetails.MDay) : dayDetails.MDay;
                 $scope.malayalamMonth = monthService.getMalayalamMonthName(dayDetails.MalayalamMonth);
                 $scope.malayalamNakshatra = dayDetails.MNakshatra;
@@ -54,14 +57,14 @@ angular.module('Malendar.controllers', [])
                 $scope.special = dayDetails.special;
                 $scope.holiday = dayDetails.holiday;
 
-                if ($scope.activeMoment.month() == 11 && $scope.activeMoment.date() == 31) {
+                if (activeMomentService.activeMoment.month() == 11 && activeMomentService.activeMoment.date() == 31) {
                     //If 31st December. Hide next button. Because we dont have the data right now
                     $scope.showNext = false;
                 } else {
                     $scope.showNext = true;
                 }
 
-                if ($scope.activeMoment.month() == 0 && $scope.activeMoment.date() == 1) {
+                if (activeMomentService.activeMoment.month() == 0 && activeMomentService.activeMoment.date() == 1) {
                     //If 1st Jan. Hide prev button. Because we dont have the data right now
                     $scope.showPrev = false;
                 } else {
@@ -106,13 +109,11 @@ angular.module('Malendar.controllers', [])
         }
     ])
 
-.controller('topBarController', ['$scope',
-    function($scope) {
+.controller('topBarController', ['$scope', '$timeout', 'settingsService', 
+    function($scope, $timeout, settingsService) {
         $scope.openApplication = function(appId, $event) {
             if (chrome.management) {
-                //chrome.tabs.getCurrent(function (currentTab) {
                 chrome.management.launchApp(appId, function(tab) {});
-                //})
             }
             $event.preventDefault();
         }
@@ -129,7 +130,7 @@ angular.module('Malendar.controllers', [])
                             name: extension.shortName,
                             icon: extension.icons[extension.icons.length - 1].url
                         });
-                        $scope.$apply();
+                        //$scope.$apply();
                     }
                 });
             });
@@ -167,18 +168,26 @@ angular.module('Malendar.controllers', [])
                         }
 
                     });
-
                     chrome.bookmarks.get(id, function(bookmark) {
                         if (bookmark[0].parentId) {
                             $scope.bookmarks.backId = bookmark[0].parentId;
                         } else {
                             $scope.bookmarks.backId = 0;
                         }
-                        $scope.$apply();
+                        $timeout(function () {
+                            $scope.$apply()
+                        });
                     });
                 });
             }
         }
+
+
+        $scope.$watch(function() {
+            return settingsService.permissionStatus
+        }, function(newValue) {
+            $scope.permissionStatus = settingsService.permissionStatus;
+        });
 
         $scope.openCalendar = function() {
             chrome.permissions.request({
@@ -189,11 +198,16 @@ angular.module('Malendar.controllers', [])
                 	chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
 						// Use the token.
 						chrome.alarms.create('syncAlarm', {
-                            'periodInMinutes' : 10
+                            'periodInMinutes' : 1
                         })
 					});
-                } else {
-                    alert('You did not grant permission');
+
+                    //Inform the newtab page that we have got the alarms permission
+                    chrome.runtime.sendMessage({gotPermission: true}, function(response) {
+                        console.log(response);
+                    });
+
+                    settingsService.setPermissionStatus('permitted');
                 }
             });
         }
@@ -368,5 +382,24 @@ angular.module('Malendar.controllers', [])
             $scope.calendarType = calendarType;
             settingsService.setCalendarType(calendarType);
         }
+    }
+])
+
+
+.controller('eventTickerController', ['$scope', 'activeMomentService', 'calendarService', 'settingsService', 
+    function($scope, activeMomentService, calendarService, settingsService) {
+        $scope.$watch(function() {
+            return settingsService.calendarType
+        }, function(newValue) {
+            $scope.calendarType = settingsService.calendarType;
+        });
+
+        $scope.$watch(function() {
+            return activeMomentService.activeMoment
+        }, function(newValue, oldValue) {
+            $scope.index = 0;
+            $scope.eventsToday = calendarService.getEventsForDay(activeMomentService.activeMoment);
+            console.log($scope.eventsToday);
+        }, true);
     }
 ]);

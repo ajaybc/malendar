@@ -1062,6 +1062,8 @@ select.formFld {
 
 
 #eventTickerContainer {
+	overflow:hidden;
+	position: relative;
 	padding: 15px 10px;
 	width: 500px;
 	margin: 0 auto;
@@ -1076,5 +1078,29 @@ select.formFld {
 	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
 	&:hover {
 		opacity: 1;
+	}
+
+	ul {
+		li {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			a {
+				color: #FFF;
+				text-decoration: none;
+			}
+		}
+	}
+
+	a.prev {
+		position: absolute;
+		left: 5px;
+		top: 15px;
+	}
+
+	a.next {
+		position: absolute;
+		right: 5px;
+		top: 15px;
 	}
 }
