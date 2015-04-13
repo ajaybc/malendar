@@ -198,7 +198,7 @@ angular.module('Malendar.controllers', [])
                 	chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
 						// Use the token.
 						chrome.alarms.create('syncAlarm', {
-                            'periodInMinutes' : 1
+                            'periodInMinutes' : 15
                         })
 					});
 
