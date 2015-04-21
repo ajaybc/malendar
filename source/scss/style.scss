@@ -1062,6 +1062,9 @@ select.formFld {
 
 
 #eventTickerContainer {
+	@media (max-height: 640px) {
+		display: none;
+	}
 	overflow:hidden;
 	position: relative;
 	padding: 15px 10px;

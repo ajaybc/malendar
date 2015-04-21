@@ -230,7 +230,7 @@
 
 
 		<footer data-ng-class="(newsArray.length > 0)?'withnews':''" data-ng-controller="newsController">
-			<div class="news-container" data-scroll-detect data-scroll-handler="ticker.next()">
+			<div class="news-container" data-scroll-detect data-scroll-down-handler="ticker.next()" data-scroll-up-handler="ticker.prev()">
 				<div class="news-left mallu" data-ng-show="newsArray.length > 0">
 					വാർത്തകൾ 
 				</div>

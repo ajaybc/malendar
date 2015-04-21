@@ -295,6 +295,14 @@ angular.module('Malendar.controllers', [])
             }
         }
 
+        $scope.ticker.prev = function() {
+            if ($scope.ticker.marginTop != 0) {
+                $scope.ticker.marginTop += 30;
+            } else {
+                $scope.ticker.marginTop = (parseInt($('.news-ul-wrapper ul').height()) - 30) * (-1);
+            }
+        }
+
 
         if (settingsService.newsEnabled == 'enabled') {
             //Fetch news only if it is enabled

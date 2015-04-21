@@ -3,13 +3,24 @@ angular.module('Malendar.directives', [])
 		return {
 			'restrict' : 'A',
 			'scope' : {
-				'scrollHandler' : '&'
+				'scrollDownHandler' : '&',
+				'scrollUpHandler' : '&'
 			},
 			'link' : function (scope, element, attrs) {
-				element.bind('wheel', function(e){
-					scope.scrollHandler();
+				window.addEventListener('wheel', function(e){
+					if (e.wheelDelta > 0) {
+						scope.scrollUpHandler();
+					} else {
+						scope.scrollDownHandler();
+					}
 					scope.$apply();
 				});
+				/*element.bind('wheel', function(e){
+					console.log(e);
+					console.log(e.deltaMode);
+					scope.scrollDownHandler();
+					scope.$apply();
+				});*/
 			}
 		}
 	}]);
