@@ -181,36 +181,6 @@ angular.module('Malendar.controllers', [])
                 });
             }
         }
-
-
-        $scope.$watch(function() {
-            return settingsService.permissionStatus
-        }, function(newValue) {
-            $scope.permissionStatus = settingsService.permissionStatus;
-        });
-
-        $scope.openCalendar = function() {
-            chrome.permissions.request({
-                "permissions": ['identity', 'background', 'alarms']
-            }, function(granted) {
-                // The callback argument will be true if the user granted the permissions.
-                if (granted) {
-                	chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-						// Use the token.
-						chrome.alarms.create('syncAlarm', {
-                            'periodInMinutes' : 15
-                        })
-					});
-
-                    //Inform the newtab page that we have got the alarms permission
-                    chrome.runtime.sendMessage({gotPermission: true}, function(response) {
-                        console.log(response);
-                    });
-
-                    settingsService.setPermissionStatus('permitted');
-                }
-            });
-        }
     }
 ])
 
@@ -390,24 +360,5 @@ angular.module('Malendar.controllers', [])
             $scope.calendarType = calendarType;
             settingsService.setCalendarType(calendarType);
         }
-    }
-])
-
-
-.controller('eventTickerController', ['$scope', 'activeMomentService', 'calendarService', 'settingsService', 
-    function($scope, activeMomentService, calendarService, settingsService) {
-        $scope.$watch(function() {
-            return settingsService.calendarType
-        }, function(newValue) {
-            $scope.calendarType = settingsService.calendarType;
-        });
-
-        $scope.$watch(function() {
-            return activeMomentService.activeMoment
-        }, function(newValue, oldValue) {
-            $scope.index = 0;
-            $scope.eventsToday = calendarService.getEventsForDay(activeMomentService.activeMoment);
-            console.log($scope.eventsToday);
-        }, true);
     }
 ]);

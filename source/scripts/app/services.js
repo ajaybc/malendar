@@ -4,8 +4,7 @@ angular.module('Malendar.services', [])
         this.newsSource = (window.localStorage.getItem('config_newsSource')) ? window.localStorage.getItem('config_newsSource') : 'manorama';
         this.newsEnabled = (window.localStorage.getItem('config_newsEnabled')) ? window.localStorage.getItem('config_newsEnabled') : 'enabled';
         this.calendarType = (window.localStorage.getItem('config_calendarType')) ? window.localStorage.getItem('config_calendarType') : 'dateWidget';
-        this.permissionStatus = (window.localStorage.getItem('config_permissionStatus')) ? window.localStorage.getItem('config_permissionStatus') : 'not_permitted';
-
+    
         this.setNewsSource = function(newsSource) {
             window.localStorage.setItem('config_newsSource', newsSource);
             this.newsSource = newsSource;
@@ -22,10 +21,6 @@ angular.module('Malendar.services', [])
             window.localStorage.setItem('config_calendarType', calendarType);
             this.calendarType = calendarType;
         }
-        this.setPermissionStatus = function(permissionStatus) {
-            window.localStorage.setItem('config_permissionStatus', permissionStatus);
-            this.permissionStatus = permissionStatus;
-        } 
     })
 
     .service('monthService', function() {
