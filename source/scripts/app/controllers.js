@@ -109,7 +109,7 @@ angular.module('Malendar.controllers', [])
         }
     ])
 
-.controller('topBarController', ['$scope', '$timeout', 'settingsService', 
+.controller('topBarController', ['$scope', '$timeout', 'settingsService',
     function($scope, $timeout, settingsService) {
         $scope.openApplication = function(appId, $event) {
             if (chrome.management) {
@@ -347,7 +347,7 @@ angular.module('Malendar.controllers', [])
             } else {
                 $scope.showPrev = true;
             }
-            console.log(Math.round(performance.memory.usedJSHeapSize / 10000, 2) / 100 + ' MB');
+            //console.log(Math.round(performance.memory.usedJSHeapSize / 10000, 2) / 100 + ' MB');
         }
     }
 ])

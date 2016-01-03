@@ -25,8 +25,8 @@ ng\:form {
 }
 
 
-@include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
-@include font-face("Meera", font-files("meera.ttf"));
+//@include font-face("Karthika", font-files("karthika.woff", "karthika.ttf", "karthika.svg"));
+@include font-face("NotoSansMalayalam", font-files("NotoSansMalayalam-Regular.ttf"));
 
 /* @media screen and (-webkit-min-device-pixel-ratio:0) {
 	//Test : Hack for font smoothing : http://stackoverflow.com/a/19582105/923109
@@ -123,7 +123,7 @@ header {
 					top: 30px;
 					display: none;
 					z-index: 10;
-					
+
 					.dropdown-arrow-container {
 						position:relative;
 						height: 5px;
@@ -144,11 +144,11 @@ header {
 					}
 
 					.arrow-up {
-						width: 0; 
-						height: 0; 
+						width: 0;
+						height: 0;
 						border-left: 6px solid transparent;
 						border-right: 6px solid transparent;
-						
+
 						border-bottom: 6px solid #F0E9DC;
 					}
 				}
@@ -224,7 +224,7 @@ header {
 							    	display: block;
 							    	color: #6F5F5C;
 							    }
-								
+
 								div{
 									font-size: 14px;
 									color: #825d5b;
@@ -268,10 +268,10 @@ header {
 									font-size: 14px;
 									text-align:center;
 									color: #825d5b;
-									white-space: nowrap; 
-								    width: 60px; 
+									white-space: nowrap;
+								    width: 60px;
 								    overflow: hidden;
-								    text-overflow: ellipsis; 
+								    text-overflow: ellipsis;
 								}
 
 								&:hover {
@@ -350,6 +350,8 @@ footer {
 				text-align: justify;
 				width: 100%;
 				box-sizing:border-box;
+                font-size: 12px;
+                line-height: 20px;
 
 				div {
 					overflow: hidden;
@@ -380,7 +382,7 @@ footer {
 						a {
 							color: #F0E9DC;
 							text-decoration: none;
-							font-size: 20px;
+							font-size: 16px;
 							opacity: 0.95;
 
 							&:hover {
@@ -395,7 +397,7 @@ footer {
 }
 
 .mallu {
-	font-family:"Meera";
+	font-family:"NotoSansMalayalam";
 }
 
 #dateWidget {
@@ -509,7 +511,7 @@ footer {
 		}
 	}
 
-	
+
 	#dateWidget-bottom {
 		@include pie-clearfix;
 		box-sizing: border-box;
@@ -535,9 +537,9 @@ footer {
 			text-align: left;
 			padding-left: 10px;
 			box-sizing: border-box;
-			font-size: 22px;
+			font-size: 18px;
 
-			padding-top: 16px;
+			padding-top: 18px;
 
 			#dateWidget-mmonth{
 				padding-bottom: 6px;
@@ -568,9 +570,9 @@ footer {
 }
 
 .dateWidget-heading {
-	font-size: 22px;
+	font-size: 20px;
 	background: #825d5b;
-	padding: 10px;
+	padding: 12px 10px 10px 10px;
 	color: #f0e9dc;
 	text-align:center;
 
@@ -600,7 +602,7 @@ footer {
 			}
 		}
 	}
-	
+
 	#dateWidget-mrahu{
 		padding: 10px 5px;
 		font-size: 24px;
@@ -718,7 +720,7 @@ footer {
 					}
 				}
 			}
-			
+
 			&:last-child {
 				margin-right: 0;
 			}
@@ -826,7 +828,7 @@ select.formFld {
 			padding-bottom: 0;
 		}
 		#gregorianMonth {
-			font-size: 36px;
+			font-size: 28px;
 			text-align:center;
 			@media (max-height: 680px) {
 				font-size: 24px;
@@ -835,7 +837,7 @@ select.formFld {
 		}
 
 		#malayalamMonth{
-			font-size: 18px;
+			font-size: 16px;
 			text-align:center;
 
 			@media (max-height: 750px) {
@@ -897,7 +899,7 @@ select.formFld {
 		@include pie-clearfix;
 		border-radius: 5px 5px 0 0;
 		background: #825d5b;
-		
+
 		li {
 			display: block;
 			float: left;
@@ -906,7 +908,7 @@ select.formFld {
 			box-sizing: border-box;
 			width: percentage(1/7);
 			padding: 10px 20px 5px 20px;
-			font-size: 20px;
+			font-size: 16px;
 		}
 	}
 
@@ -955,7 +957,7 @@ select.formFld {
 
 			.dummyDay {
 				//Padding Days
-				
+
 			}
 
 			&.borderRight {
@@ -1017,7 +1019,7 @@ select.formFld {
 					padding-left: 5px;
 					padding-top: 10px;
 					color: #825d5b;
-					font-size: 20px;
+					font-size: 14px;
 					@media (max-height: 680px) {
 						font-size: 16px;
 						padding-top: 6px;
