@@ -4,7 +4,7 @@ angular.module('Malendar.services', [])
         this.newsSource = (window.localStorage.getItem('config_newsSource')) ? window.localStorage.getItem('config_newsSource') : 'manorama';
         this.newsEnabled = (window.localStorage.getItem('config_newsEnabled')) ? window.localStorage.getItem('config_newsEnabled') : 'enabled';
         this.calendarType = (window.localStorage.getItem('config_calendarType')) ? window.localStorage.getItem('config_calendarType') : 'dateWidget';
-    
+
         this.setNewsSource = function(newsSource) {
             window.localStorage.setItem('config_newsSource', newsSource);
             this.newsSource = newsSource;
@@ -310,55 +310,4 @@ angular.module('Malendar.services', [])
 
     .service('activeMomentService', [function () {
         this.activeMoment = moment();
-    }])
-
-    .service('calendarService', [function () {
-        this.getEventsForDay = function (m) {
-            //Get all events for a day. Accepts a moment
-            var month = m.month() + 1;
-            var day = m.date();
-            var calendarJson = window.localStorage.getItem('calendar_' + month);
-            if (calendarJson) {
-                var calendarData = JSON.parse(calendarJson);
-                if (calendarData[day]) {
-                    for (var i=0; i < calendarData[day].length; i++) {
-                        if (calendarData[day][i].start) {
-                            if (calendarData[day][i].start.dateTime) {
-                                calendarData[day][i].startMoment = moment(calendarData[day][i].start.dateTime);
-                            } else if (calendarData[day][i].start.date) {
-                                calendarData[day][i].startMoment = moment(calendarData[day][i].start.date);
-                            }
-                        }
-
-                        if (calendarData[day][i].end) {
-                            if (calendarData[day][i].end.dateTime) {
-                                calendarData[day][i].endMoment = moment(calendarData[day][i].end.dateTime);
-                            } else if (calendarData[day][i].end.date) {
-                                calendarData[day][i].endMoment = moment(calendarData[day][i].end.date);
-                            }
-                        }
-                    }
-                    return calendarData[day];
-                } else {
-                    return [];
-                }
-
-            } else {
-                return [];
-            }
-        }
-
-        this.getUpcomingEventsForTheDay = function (m) {
-            //Get all upcoming events for a day. Returns only those events with same date but > time
-            var events = this.getEventsForDay(m);
-            var filteredEvents = [];
-            for (var i=0; i < events.length; i++) {
-                if (m.isBefore(events[i].endMoment)) {
-                    //If current time < end of the event, push to array
-                    filteredEvents.push(events[i]);
-                }
-            }
-
-            return filteredEvents;
-        }
     }]);

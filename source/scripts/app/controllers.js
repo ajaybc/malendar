@@ -1,6 +1,6 @@
 angular.module('Malendar.controllers', [])
-    .controller('dateWidgetController', ['$scope', 'monthService', 'dayOfWeekService', 'weatherService', 'settingsService', 'activeMomentService', 'calendarService',
-        function($scope, monthService, dayOfWeekService, weatherService, settingsService, activeMomentService, calendarService) {
+    .controller('dateWidgetController', ['$scope', 'monthService', 'dayOfWeekService', 'weatherService', 'settingsService', 'activeMomentService',
+        function($scope, monthService, dayOfWeekService, weatherService, settingsService, activeMomentService) {
             $scope.nextDay = function($event) {
                 if ($scope.showNext) {
                     activeMomentService.activeMoment = activeMomentService.activeMoment.add({
