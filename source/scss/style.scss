@@ -1043,12 +1043,10 @@ select.formFld {
 	width: 100%;
 	#calendarSwitcher-inner {
 		@include pie-clearfix;
-		width: 90px;
-		margin:0 auto;
+		text-align: center;
 
 		a {
-			display: block;
-			float: left;
+			display: inline-block;
 			padding: 15px;
 			color: #F0E9DC;
 			opacity: 0.6;

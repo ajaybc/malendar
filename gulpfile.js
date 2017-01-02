@@ -17,7 +17,7 @@ gulp.task('clean', ['cleanLibJs', 'cleanDataJs', 'cleanAppJs', 'cleanScss', 'cle
 
 gulp.task('buildLibJs', function () {
     gulp.src([libJsSrc + 'jquery-2.1.1.min.js', libJsSrc + '*'])
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(concat('libs.js'))
         .pipe(gulp.dest('build/scripts/'))
 });
@@ -30,7 +30,7 @@ gulp.task('cleanLibJs', function (cb) {
 
 gulp.task('buildDataJs', function () {
     gulp.src([dataJsSrc + '*'])
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(concat('data.js'))
         .pipe(gulp.dest('build/scripts/'))
 });
@@ -43,7 +43,7 @@ gulp.task('cleanDataJs', function (cb) {
 
 gulp.task('buildAppJs', function () {
     gulp.src([appJsSrc + '*'])
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest('build/scripts/'))
 });
@@ -85,7 +85,7 @@ gulp.task('cleanFonts', function (cb) {
 gulp.task('buildImages', function () {
     try {
       gulp.src([imageSrc + '*'])
-          .pipe(gulp.dest('build/images/'))  
+          .pipe(gulp.dest('build/images/'))
     } catch (err) {
       console.log(err);
     }
