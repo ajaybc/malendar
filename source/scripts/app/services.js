@@ -207,7 +207,7 @@ angular.module('Malendar.services', [])
                 return $q(function(resolve, reject) {
                     var now = moment();
                     var noCache = false;
-                    cachedWeatherJson = window.localStorage.getItem('weather_' + districtName);
+                    cachedWeatherJson = window.localStorage.getItem('weather_new_' + districtName);
                     if (cachedWeatherJson) {
                         cachedWeather = JSON.parse(cachedWeatherJson);
                         cachedMoment = moment(cachedWeather.cacheTime);
@@ -234,13 +234,13 @@ angular.module('Malendar.services', [])
                         console.log('not from cache');
                         yahooWoeid = districtService.getDistricts()[districtName]['yahooWoeid'];
                         var request = $http.get(
-                            'http://api-malendar.rhcloud.com/weather.php', {
+                            'http://104.198.31.239/weather.php', {
                                 params: {
                                     'yahooWoeid': yahooWoeid
                                 }
                             }
                         ).success(function(data, status, headers, config) {
-                            window.localStorage.setItem('weather_' + districtName, JSON.stringify({
+                            window.localStorage.setItem('weather_new_' + districtName, JSON.stringify({
                                 'cacheTime': now.format('YYYY-MM-DD HH:mm:ss'),
                                 'forecast': data.forecast,
                                 'condition': data.condition
@@ -287,7 +287,7 @@ angular.module('Malendar.services', [])
 
                     if (noCache) {
                         var request = $http.get(
-                            'http://api-malendar.rhcloud.com/news.php', {
+                            'http://104.198.31.239/news.php', {
                                 params: {
                                     'source': source
                                 }
